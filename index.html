@@ -1180,6 +1180,44 @@ async function sbDel(k){
     return true;
   }catch(e){SB_OK=false;return false;}
 }
+/* ---- Per-date bucket sync ---------------------------------
+   The single "buckets" key grew to ~29MB (all days in one JSON
+   value) and silently exceeded PostgREST's payload limit, so the
+   morning upload never reached the cloud. We now mirror each day
+   as its own row keyed "buckets:<date>" (~1.5MB each), which sync
+   reliably. Nothing else about the sync algorithm changes.        */
+const BUCKET_PREFIX='buckets:';
+/* Write each per-date bucket as its own small row (upsert). */
+async function sbSetBuckets(bucketsObj){
+  let allOk=true;
+  for(const d in bucketsObj){
+    const ok=await sbSet(BUCKET_PREFIX+d, bucketsObj[d]);
+    if(!ok)allOk=false;
+  }
+  return allOk;
+}
+/* Fetch all per-date bucket rows and reassemble into one object.
+   Returns {value, updatedAt} shaped like sbGet, or null if none.
+   Also folds in any legacy single "buckets" blob still in the cloud
+   so no previously-synced day is ever lost.                        */
+async function sbGetBuckets(){
+  try{
+    const r=await fetch(SB_URL+'/app_state?key=like.'+encodeURIComponent(BUCKET_PREFIX+'*')+'&select=key,value,updated_at',{headers:sbAuthHeaders()});
+    if(!r.ok)throw new Error('HTTP '+r.status);
+    const rows=await r.json();
+    const legacy=await sbGet('buckets');   // old combined blob, if present
+    const out=(legacy&&legacy.value&&typeof legacy.value==='object')?{...legacy.value}:{};
+    let newest=(legacy&&legacy.updatedAt)?Date.parse(legacy.updatedAt):0;
+    for(const row of rows){
+      const d=row.key.slice(BUCKET_PREFIX.length);
+      out[d]=row.value;
+      const ts=row.updated_at?Date.parse(row.updated_at):0;
+      if(ts>newest)newest=ts;
+    }
+    if(!Object.keys(out).length)return null;
+    return {value:out, updatedAt:new Date(newest||Date.now()).toISOString()};
+  }catch(e){SB_OK=false;return null;}
+}
 
 /* ============================================================
    SUPABASE AUTH (real accounts; role = admin | fm)
@@ -1513,42 +1551,12 @@ async function persist(){
   const kt=(await idbGet('_keyTs'))||{};
   SYNC_KEYS.forEach(k=>{kt[k]=now;});
   await idbSet('_keyTs',kt);
-  // Cloud save. Date-keyed blobs are MERGED with the cloud's current value
-  // (union by date key) so one device's stale copy can't wipe another
-  // device's dates. Non-date blobs (pipCfg, stageRules) are last-write.
   Promise.all([
-    sbSetDateMerged('buckets',STATE.buckets),
-    sbSetDateMerged('plans',STATE.plans),
-    sbSetDateMerged('dayActivity',STATE.dayActivity),
-    sbSetDateMerged('coverage',STATE.coverage),
-    sbSetDateMerged('phaseDone',STATE.phaseDone),
+    sbSetBuckets(STATE.buckets),sbSet('plans',STATE.plans),
     sbSet('pipDays',STATE.pipDays),sbSet('pipCfg',STATE.pipCfg),
-    sbSet('stageRules',sr)
+    sbSet('dayActivity',STATE.dayActivity),sbSet('coverage',STATE.coverage),
+    sbSet('stageRules',sr),sbSet('phaseDone',STATE.phaseDone)
   ]).then(()=>{if(!SB_OK&&typeof toast==='function')toast('Saved locally — cloud sync unavailable','bad');});
-}
-/* Save a date-keyed blob by MERGING with the cloud's current value first:
-   union of both sides' top-level keys (dates / FM|date). For overlapping
-   keys, the local value wins (it's the one just edited on this device).
-   This prevents a device holding an older copy from deleting dates that
-   another device added in the meantime. Local STATE is updated to the
-   merged result so this device also picks up the other device's dates. */
-async function sbSetDateMerged(key, localObj){
-  try{
-    const row=await sbGet(key);
-    const cloud=(row&&row.value)||{};
-    const merged={...cloud, ...localObj};   // union; local wins on overlap
-    // reflect the union back into local STATE + idb so we gain others' dates
-    if(key==='buckets')STATE.buckets=merged;
-    else if(key==='plans')STATE.plans=merged;
-    else if(key==='dayActivity')STATE.dayActivity=merged;
-    else if(key==='coverage')STATE.coverage=merged;
-    else if(key==='phaseDone')STATE.phaseDone=merged;
-    try{await idbSet(key,merged);}catch(e){}
-    return await sbSet(key, merged);
-  }catch(e){
-    // offline or fetch failed → fall back to plain write of local
-    return await sbSet(key, localObj);
-  }
 }
 async function loadState(){
   const bk=await idbGet('buckets');if(bk)STATE.buckets=bk;
@@ -1567,7 +1575,7 @@ async function loadState(){
   let keyTs=(await idbGet('_keyTs'))||{};
   // overlay cloud copies newer than our last local PULL of THAT key
   try{
-    const rows=await Promise.all(SYNC_KEYS.map(k=>sbGet(k)));
+    const rows=await Promise.all(SYNC_KEYS.map(k=>k==='buckets'?sbGetBuckets():sbGet(k)));
     let pulledNewer=false;
     const newKeyTs={...keyTs};
     SYNC_KEYS.forEach((k,i)=>{
