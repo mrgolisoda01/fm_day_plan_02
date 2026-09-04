@@ -510,6 +510,15 @@ select{min-width:170px;cursor:pointer;appearance:none;
 .gm-toggle{display:flex;align-items:center;gap:8px;cursor:pointer;padding-bottom:6px}
 .gm-toggle input{width:18px;height:18px;cursor:pointer}
 .gm-toggle-txt{font-size:13px;font-weight:700;color:#334155}
+/* slide toggle switch */
+.tglswitch{position:relative;display:inline-block;width:52px;height:30px;flex:0 0 auto}
+.tglswitch input{opacity:0;width:0;height:0;position:absolute}
+.tglswitch .tgl-track{position:absolute;inset:0;background:#cbd5e1;border-radius:999px;transition:.2s;cursor:pointer}
+.tglswitch .tgl-track::before{content:"";position:absolute;height:24px;width:24px;left:3px;top:3px;background:#fff;border-radius:50%;transition:.2s;box-shadow:0 1px 3px rgba(0,0,0,.25)}
+.tglswitch input:checked + .tgl-track{background:#dc2626}
+.tglswitch input:checked + .tgl-track::before{transform:translateX(22px)}
+.tglrow{display:flex;align-items:center;gap:12px;margin:4px 0 2px}
+.tglrow .tgl-label{font-size:14px;font-weight:800;color:var(--ink)}
 .gm-save-msg{font-size:12px;font-weight:700;align-self:center}
 .gm-save-msg.ok{color:#15803d}.gm-save-msg.bad{color:#b91c1c}
 .gma-card{border:1.5px solid #f9a8d4}
@@ -710,6 +719,14 @@ body.is-fm .admin-view{display:none}   /* hide the admin plan/phases when FM */
 .fmv-pip b{font-weight:800;font-size:13.5px;display:block;margin-bottom:2px}
 .fmv-pip.p1 b{color:var(--warn)} .fmv-pip.p2 b{color:var(--bad)}
 .fmv-pip span{font-size:12px;color:var(--ink-2);font-weight:500}
+/* timed callback alert bar */
+.cb-alert{margin:12px 16px 0;border-radius:12px;padding:12px 14px;display:flex;align-items:center;gap:12px;background:#fef3c7;border:1.5px solid #f59e0b;animation:cbpulse 2s ease-in-out infinite}
+@keyframes cbpulse{0%,100%{box-shadow:0 0 0 0 rgba(245,158,11,.0)}50%{box-shadow:0 0 0 4px rgba(245,158,11,.18)}}
+.cb-alert-main{flex:1;min-width:0}
+.cb-alert-top{font-size:13.5px;font-weight:800;color:#92400e}
+.cb-alert-sub{font-size:11.5px;color:#a15c1a;font-weight:600;margin-top:1px}
+.cb-alert-btn{flex:0 0 auto;background:var(--ok);color:#fff;border-radius:10px;padding:9px 14px;font-size:13px;font-weight:800;text-decoration:none}
+.cb-alert-btn.off{background:#cbd5e1;color:#64748b}
 
 /* stage filter chips */
 .fmv-chips{display:flex;gap:8px;overflow-x:auto;padding:14px 16px 4px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
@@ -1410,10 +1427,10 @@ async function gmeetShotUrl(path){
   }catch(e){return '';}
 }
 /* Admin: read the G-Meet settings (cutoff + lock switch). */
-let GMEET_SETTINGS={cutoff_local:'19:30',tz:'Asia/Kolkata',lock_enabled:true};
+let GMEET_SETTINGS={cutoff_local:'19:30',tz:'Asia/Kolkata',lock_enabled:true,plan_lock_active:false};
 async function gmeetGetSettings(){
   try{
-    const r=await fetch(SB_URL+'/gmeet_settings?id=eq.global&select=cutoff_local,tz,lock_enabled,fm_overrides,plan_cutoff_local,plan_lock_enabled',{headers:sbAuthHeaders()});
+    const r=await fetch(SB_URL+'/gmeet_settings?id=eq.global&select=cutoff_local,tz,lock_enabled,fm_overrides,plan_cutoff_local,plan_lock_enabled,plan_lock_active',{headers:sbAuthHeaders()});
     if(!r.ok)throw new Error('HTTP '+r.status);
     const rows=await r.json();
     if(rows.length)GMEET_SETTINGS={...GMEET_SETTINGS,...rows[0]};
@@ -1688,12 +1705,13 @@ const STATE={
   dayTypes:{},        // dateISO -> 'heavy' | 'least'  (admin-assigned day type)
   dialCalls:{},       // "fm|date" -> { leadKey: {t:ms, via:'dialer'|'random'} }  call taps
   visitDates:{},      // leadKey -> {date:'YYYY-MM-DD', fm, leadName, setAt}  scheduled Ready-to-Meet / Market-Visit date
+  tasks:{},           // dateISO -> [ {leadKey, fm, name, phone, deadline:ms, deadlineISO, hhmm, status, overdue, needNumber} ]  from TASKS report
 };
 let UP_MORNING=null, UP_MID=null, UP_EOD=null;
 function planKey(fm,date){return fm+'|'+date;}
 /* Point STATE.bucket at the given date's stored bucket (or null if none). */
 function useBucketForDate(date){STATE.bucket = STATE.buckets[date] || null;}
-const SYNC_KEYS=['buckets','plans','pipDays','pipCfg','dayActivity','coverage','stageRules','phaseDone','dayTypes','dialCalls','visitDates'];
+const SYNC_KEYS=['buckets','plans','pipDays','pipCfg','dayActivity','coverage','stageRules','phaseDone','dayTypes','dialCalls','visitDates','tasks'];
 async function persist(){
   const now=Date.now();
   const sr=currentStageRules();
@@ -1705,6 +1723,7 @@ async function persist(){
   await idbSet('dayTypes',STATE.dayTypes);
   await idbSet('dialCalls',STATE.dialCalls);
   await idbSet('visitDates',STATE.visitDates);
+  await idbSet('tasks',STATE.tasks);
   await idbSet('_ts',now);
   // mark every key as locally-current as of now, so we don't re-pull our own writes
   const kt=(await idbGet('_keyTs'))||{};
@@ -1716,7 +1735,7 @@ async function persist(){
     sbSet('dayActivity',STATE.dayActivity),sbSet('coverage',STATE.coverage),
     sbSet('stageRules',sr),sbSet('phaseDone',STATE.phaseDone),
     sbSet('dayTypes',STATE.dayTypes),sbSet('dialCalls',STATE.dialCalls),
-    sbSet('visitDates',STATE.visitDates)
+    sbSet('visitDates',STATE.visitDates),sbSet('tasks',STATE.tasks)
   ]).then(()=>{if(!SB_OK&&typeof toast==='function')toast('Saved locally — cloud sync unavailable','bad');});
 }
 async function loadState(){
@@ -1732,6 +1751,7 @@ async function loadState(){
   const dt=await idbGet('dayTypes');if(dt)STATE.dayTypes=dt;
   const dc=await idbGet('dialCalls');if(dc)STATE.dialCalls=dc;
   const vd=await idbGet('visitDates');if(vd)STATE.visitDates=vd;
+  const tk=await idbGet('tasks');if(tk)STATE.tasks=tk;
   const sr=await idbGet('stageRules');if(sr)applyStageRules(sr);
   // per-key last-synced timestamps (fixes: a new admin upload must reach FMs even
   // if their phone saved a plan more recently). Falls back to the old global _ts.
@@ -1750,7 +1770,7 @@ async function loadState(){
       const localKeyTs=keyTs[k]!=null?keyTs[k]:globalTs;
       const localMissing=(k==='buckets'&&!bk)||(k==='plans'&&!p)||(k==='pipDays'&&!pd)||
                       (k==='pipCfg'&&!pc)||(k==='dayActivity'&&!da)||(k==='coverage'&&!cv)||
-                      (k==='stageRules'&&!sr)||(k==='phaseDone'&&!phd)||(k==='dayTypes'&&!dt)||(k==='dialCalls'&&!dc)||(k==='visitDates'&&!vd);
+                      (k==='stageRules'&&!sr)||(k==='phaseDone'&&!phd)||(k==='dayTypes'&&!dt)||(k==='dialCalls'&&!dc)||(k==='visitDates'&&!vd)||(k==='tasks'&&!tk);
       if(localMissing || cloudTs>localKeyTs){
         if(k==='pipCfg')STATE.pipCfg={...STATE.pipCfg,...row.value};
         else if(k==='stageRules')applyStageRules(row.value);
@@ -1780,12 +1800,117 @@ async function loadState(){
       await idbSet('dayTypes',STATE.dayTypes);
       await idbSet('dialCalls',STATE.dialCalls);
       await idbSet('visitDates',STATE.visitDates);
+      await idbSet('tasks',STATE.tasks);
       await idbSet('stageRules',currentStageRules());
       await idbSet('_keyTs',newKeyTs);
       await idbSet('_ts',Date.now());
     }
   }catch(e){/* offline or blocked — local cache already loaded */}
   useBucketForDate(STATE.sel.date);
+}
+
+/* ============================================================
+   INGEST — TASKS report -> STATE.tasks[date]
+   Callback/task reminders with a real date+TIME (Task Deadline).
+   Matched to the ALLREPORT lead by phone; if a task has no phone,
+   matched by unique name; the lead is pinned mandatory and the
+   timed dialer alert fires ~10 min before the deadline time.
+   ============================================================ */
+// Parse "25-11-2025 11:30:02 am" (dash date + 12h am/pm) -> {ms, day, hhmm}
+function parseTaskDeadline(v){
+  v=clean(v);if(!v)return null;
+  const m=v.match(/^(\d{1,2})-(\d{1,2})-(\d{4})(?:\s+(\d{1,2}):(\d{2})(?::(\d{2}))?\s*(am|pm)?)?/i);
+  if(!m)return parseDT(v);   // fall back to the generic parser
+  let hh=+(m[4]||0);const min=+(m[5]||0),sec=+(m[6]||0);
+  const ap=(m[7]||'').toLowerCase();
+  if(ap==='pm'&&hh<12)hh+=12;
+  if(ap==='am'&&hh===12)hh=0;
+  const d=new Date(+m[3],+m[2]-1,+m[1],hh,min,sec);
+  return {ms:d.getTime(),
+          day:m[3]+'-'+m[2].padStart(2,'0')+'-'+m[1].padStart(2,'0'),
+          hhmm:String(hh).padStart(2,'0')+':'+String(min).padStart(2,'0')};
+}
+function ingestTasks(text){
+  const objs=csvToObjects(text);
+  if(!objs.length)throw new Error('Empty or unrecognised TASKS CSV');
+  const head=Object.keys(objs[0]);
+  if(!head.includes('Task Deadline')||!head.includes('Task Assignee'))
+    throw new Error('Missing Task Deadline / Task Assignee. Is this the TASKS export?');
+  // index the current bucket by phone and by lowercased name for matching
+  const bk=STATE.buckets[(UP_MORNING&&UP_MORNING.store.date)||STATE.sel.date]||STATE.bucket;
+  const byPhone={},byName={};
+  if(bk){
+    for(const l of bk.leads){
+      if(l.ph)byPhone[l.ph]=l;
+      const nm=(l.name||'').trim().toLowerCase();
+      if(nm){(byName[nm]=byName[nm]||[]).push(l);}
+    }
+  }
+  const byDate={};
+  for(const o of objs){
+    const status=clean(o['Task Status']);
+    if(/cancel/i.test(status))continue;                 // skip cancelled tasks
+    const dl=parseTaskDeadline(o['Task Deadline']);
+    if(!dl)continue;
+    const fm=clean(o['Task Assignee'])||clean(o['Assignee Name']);
+    const taskPhone=normPhone(o['Phone']);
+    const taskName=clean(o['Task Name'])||clean(o['Name']);
+    // match to an ALLREPORT lead: phone first, else unique name
+    let lead=null,needNumber=false;
+    if(taskPhone&&byPhone[taskPhone])lead=byPhone[taskPhone];
+    else if(!taskPhone){
+      const hits=byName[(taskName||'').toLowerCase()]||[];
+      if(hits.length===1)lead=hits[0];
+      else needNumber=true;                             // ambiguous / not found → flag
+    }
+    const phone=taskPhone||(lead&&lead.ph)||'';
+    const key=(lead&&lead.key)||phone||('#task-'+taskName);
+    const today=todayISO();
+    const overdue=dl.day<today;
+    const rec={leadKey:key, fm, name:(lead&&lead.name)||taskName||key,
+      phone, deadline:dl.ms, deadlineISO:dl.day, hhmm:dl.hhmm||'', status,
+      overdue, needNumber:needNumber&&!phone};
+    (byDate[dl.day]=byDate[dl.day]||[]).push(rec);
+  }
+  // merge into STATE.tasks (replace each date we saw)
+  for(const d in byDate)STATE.tasks[d]=byDate[d];
+  return {dates:Object.keys(byDate).length, total:objs.length};
+}
+
+/* Tasks that should be mandatory for an FM on a given date:
+   Pending due that day first, then older pending (overdue) carried forward. */
+/* Tasks that should be mandatory for an FM on a given date.
+   A task pins ONLY if its lead is still in today's WORKABLE bucket —
+   which by definition excludes Lost / Future Sale (those never enter
+   the bucket) and any lead not present in today's ALLREPORT. This is
+   the guard that stops the Tasks report (a historical log of every
+   task ever set) from dragging dead or absent leads into the plan.
+   Due-today first, then still-workable overdue carried forward. */
+function tasksForFmDate(fm,dateISO){
+  const bk=STATE.buckets[dateISO];
+  if(!bk)return [];
+  const workable=new Set(bk.leads.filter(l=>l.fm===fm).map(l=>l.key));
+  const out=[];const seenKey=new Set();
+  const consider=(t,bucket)=>{
+    if(t.fm!==fm)return;
+    if(/complete|cancel/i.test(t.status||''))return;   // done/cancelled tasks skip
+    if(!workable.has(t.leadKey))return;                // ← lead must be live in the bucket
+    if(seenKey.has(t.leadKey))return;                  // one task per lead
+    seenKey.add(t.leadKey);
+    out.push({...t,bucket});
+  };
+  // due exactly that day
+  for(const t of (STATE.tasks[dateISO]||[]))consider(t,'due');
+  // older overdue tasks — still only for leads that remain workable today
+  for(const d in STATE.tasks){
+    if(d>=dateISO)continue;
+    for(const t of STATE.tasks[d])consider(t,'old');
+  }
+  out.sort((a,b)=>{
+    if(a.bucket!==b.bucket)return a.bucket==='due'?-1:1;
+    return a.deadline-b.deadline;
+  });
+  return out;
 }
 
 /* ============================================================
@@ -1955,6 +2080,31 @@ function daysSinceCall(l){
   // (a lead not called in 3 days generally hasn't moved stage either).
   return l.stageDays!=null?l.stageDays:0;
 }
+/* ============================================================
+   FRESHNESS RULE — 4-day call cycle + 16-day decider
+   A workable lead must be called every 4 days while it sits in a
+   stage, and must MOVE OUT of that stage within 16 days (to Lost,
+   Future Sale, or a genuine next stage). Lost & Future Sale never
+   appear in the workable bucket (stageOf → null), so they're
+   exempt automatically. Counted by stageDays = days in current
+   stage. Due days: 4, 8, 12, 16.
+   ============================================================ */
+const FRESH_CYCLE=4;      // must be called every 4 days
+const FRESH_DECIDER=16;   // must leave the stage by day 16
+function freshState(l){
+  const d=l.stageDays;
+  if(d==null)return {due:false,decider:false,overdue:false,days:null};
+  // decider: at/over 16 days — must be moved out today
+  if(d>=FRESH_DECIDER)return {due:true,decider:true,overdue:d>FRESH_DECIDER,days:d};
+  // due on the 4-day cycle (4, 8, 12) — and any day past a missed cycle mark
+  const due = d>0 && d%FRESH_CYCLE===0;
+  // also treat "past a cycle mark but not yet called" as due, so a lead seen
+  // on day 5 (missed day 4) still surfaces rather than waiting to day 8.
+  const overCycle = d>=FRESH_CYCLE && (d%FRESH_CYCLE!==0);
+  return {due:due||overCycle,decider:false,overdue:overCycle,days:d};
+}
+function isDeciderLead(l){return freshState(l).decider;}
+function isCycleDue(l){const f=freshState(l);return f.due&&!f.decider;}
 // is the lead's reminder/follow-up date today?
 function reminderDueToday(l){
   if(!l.reminder)return false;
@@ -2042,6 +2192,52 @@ function mandatoryPlan(fm,date){
     pinned.forEach(l=>seen.add(l.key));
     steps.push({id:'pinned', label:'📌 Scheduled today (Ready to Meet / Market Visit)',
       stageId:'pinned', leads:pinned, minsEach:0, pinned:true});
+  }
+  // DECIDER (16+ days in stage): must be moved out today. Forced to the very
+  // top, outside the budget — the day can't be "done" while these sit. Every
+  // workable stage is scanned (Lost/Future Sale aren't in byStage at all).
+  const deciders=[];
+  for(const st of STAGES){
+    for(const l of (byStage[st.id]||[])){
+      if(seen.has(l.key))continue;
+      if(isDeciderLead(l)){seen.add(l.key);deciders.push(l);}
+    }
+  }
+  if(deciders.length){
+    steps.push({id:'decider', label:'⛔ Decider day — 16+ days in stage · move to Lost / Future Sale / next stage',
+      stageId:'decider', leads:deciders, minsEach:0, decider:true});
+  }
+  // CYCLE-DUE (day 4, 8, 12 — or a missed cycle mark): pulled forward so no
+  // live lead goes untouched more than 4 days. Costs budget like normal work.
+  const cycleDue=[];
+  for(const st of STAGES){
+    for(const l of (byStage[st.id]||[])){
+      if(seen.has(l.key))continue;
+      if(isCycleDue(l)){seen.add(l.key);cycleDue.push(l);}
+    }
+  }
+  if(cycleDue.length){
+    // cost each at its own stage's expected minutes; approximate via stage rate
+    const exp=cycleDue.reduce((a,l)=>{const st=STAGE_BY_ID[l.stage];return a+(st?st.min*(st.share!=null?st.share:1):5);},0);
+    used+=exp;
+    steps.push({id:'cycle', label:'🔄 Call-cycle due (every 4 days)',
+      stageId:'cycle', leads:cycleDue, minsEach:0, cycle:true});
+  }
+  // TASK CALLBACKS (from the TASKS report): reminders with a set time.
+  // Due-today first, then older pending — pinned like deciders, outside the
+  // budget. Matched to the bucket lead by phone/name in ingestTasks.
+  const taskRows=tasksForFmDate(fm,date);
+  if(taskRows.length){
+    const taskLeads=[];
+    for(const t of taskRows){
+      if(seen.has(t.leadKey))continue;seen.add(t.leadKey);
+      const l=leadByKey(t.leadKey,date)||{key:t.leadKey,name:t.name,ph:t.phone,status:'',stage:'',city:''};
+      taskLeads.push({...l, _task:t});
+    }
+    if(taskLeads.length){
+      steps.push({id:'tasks', label:'⏰ Callback / task due today',
+        stageId:'tasks', leads:taskLeads, minsEach:0, task:true});
+    }
   }
   const addFrom=(orderIds,borrowed)=>{
     for(const id of orderIds){
@@ -2640,6 +2836,13 @@ function isLocked(){const p=currentPlan();return !!(p&&p.submittedAt);}
 /* ============================================================
    MOBILE-FIRST FM VIEW — render
    ============================================================ */
+/* Is the FM view currently subject to the admin plan-lock?
+   When ON: the Mandatory checklist and Plan-your-day tab are hidden —
+   only Dialer + Random remain. This applies to the FM view itself,
+   so an admin "previewing as" an FM sees exactly what the FM sees. */
+function planLockedForViewer(){
+  return !!(GMEET_SETTINGS && GMEET_SETTINGS.plan_lock_active);
+}
 const FMV={filter:'all', tab:'mand', picks:new Set(), sortBy:'none', sortDir:'asc', search:''};
 /* Tab switching is DELEGATED at document level so it works no matter
    what happens during render/wiring — a failure anywhere else can
@@ -2656,7 +2859,59 @@ document.addEventListener('click',e=>{
 const REV={filter:'all', scope:'all', noteFilter:'all', leadNoteFilter:'all'};   // scope: all | planned | unplanned
 // picks persists across stage filters (the 240 gate is a TOTAL across all stages)
 // sortBy: 'none' | 'stage' (days in stage) | 'created' (age); sortDir: 'asc' | 'desc'
+/* ---- Timed callback alert ----------------------------------
+   For the viewer's FM, find any task whose deadline time is within
+   the next ALERT_LEAD_MIN minutes (or just passed, still uncalled)
+   TODAY, and show a highlighted bar with tap-to-dial. A 60s timer
+   repaints the FM view so the bar appears at the right moment even
+   if the FM is idle on the page. Works on any tab. */
+const ALERT_LEAD_MIN=10;      // show the bar this many minutes before the time
+const ALERT_GRACE_MIN=30;     // keep showing it this long after the time passes
+function dueCallbackAlerts(fm){
+  const now=Date.now();
+  const today=todayISO();
+  const rows=(STATE.tasks[today]||[]).filter(t=>t.fm===fm && t.deadline);
+  const out=[];
+  for(const t of rows){
+    const mins=(t.deadline-now)/60000;   // >0 = in the future
+    if(mins<=ALERT_LEAD_MIN && mins>=-ALERT_GRACE_MIN){
+      // skip if already called+noted today
+      const calls=dialCallsFor(fm,today);
+      if(calls[t.leadKey]&&wasNotedOn(t.leadKey,today))continue;
+      out.push({...t, mins});
+    }
+  }
+  out.sort((a,b)=>a.deadline-b.deadline);
+  return out;
+}
+function callbackAlertHTML(fm){
+  const due=dueCallbackAlerts(fm);
+  if(!due.length)return '';
+  const t=due[0];
+  const soon=t.mins>0;
+  const when=soon?`in ${Math.max(1,Math.round(t.mins))} min`:`now (${t.hhmm})`;
+  const tel=telLink(t.phone);
+  return `<div class="cb-alert">
+    <div class="cb-alert-main">
+      <div class="cb-alert-top">⏰ Callback ${when} — <b>${esc(t.name)}</b>${t.hhmm?` · ${t.hhmm}`:''}</div>
+      <div class="cb-alert-sub">${esc(t.phone||'number needed')}${due.length>1?` · +${due.length-1} more due soon`:''}</div>
+    </div>
+    ${tel?`<a class="cb-alert-btn" href="${tel}" data-cbcall="${esc(t.leadKey)}">📞 Call now</a>`:`<span class="cb-alert-btn off">no number</span>`}
+  </div>`;
+}
+let CB_TIMER=null;
+function startCallbackTimer(){
+  if(CB_TIMER)return;
+  CB_TIMER=setInterval(()=>{
+    if((AUTH.role==='fm'||AUTH.role==='admin') && document.getElementById('fmView') && document.getElementById('fmView').offsetParent!==null){
+      const fm=AUTH.fmName||STATE.sel.fm;
+      if(fm && dueCallbackAlerts(fm).length){try{renderFMMobile();}catch(e){}}
+    }
+  },60000);
+}
+
 function renderFMMobile(){
+  startCallbackTimer();
   const host=$('#fmView');
   const fms = STATE.bucket ? STATE.bucket.fms : [];
   // No login yet (pre-Supabase): if no FM chosen, default to the first available so
@@ -2697,17 +2952,28 @@ function renderFMMobile(){
     </div>
     ${previewPicker?`<div class="fmv-preview-row"><span class="fmv-preview-lbl">👁 Preview as</span>${previewPicker}</div>`:''}
     <div class="fmv-tabs" id="fmvTabs">
-      <button data-ftab="mand" class="${FMV.tab==='mand'?'on':''}">Mandatory</button>
-      <button data-ftab="plan" class="${FMV.tab==='plan'?'on':''}">Plan your day</button>
+      ${planLockedForViewer()?'':`<button data-ftab="mand" class="${FMV.tab==='mand'?'on':''}">Mandatory</button>
+      <button data-ftab="plan" class="${FMV.tab==='plan'?'on':''}">Plan your day</button>`}
+      ${planLockedForViewer()?`<button data-ftab="mand" class="${FMV.tab==='mand'?'on':''}">Work list</button>`:''}
       <button data-ftab="progress" class="${FMV.tab==='progress'?'on':''}">Progress</button>
       <button data-ftab="result" class="${FMV.tab==='result'?'on':''}">Result</button>
       <button data-ftab="locked" class="${FMV.tab==='locked'?'on':''}">Locked Plan</button>
     </div>
   </div>`;
 
+  // The plan-lock setting decides which tabs the FM view shows, so fetch it
+  // once (any tab, any viewer incl. admin preview) before the tab strip
+  // renders, then repaint.
+  if(!GMEET_SETTINGS._loaded){
+    GMEET_SETTINGS._loaded=true;
+    gmeetGetSettings().then(()=>renderFMMobile());
+  }
+
   // PIP banner (shown on all tabs)
   const pb=fmPipBannerData(fm);
   if(pb)html+=`<div class="fmv-pip ${pb.cls}"><span class="pi">${pb.icon}</span><div><b>${pb.title}</b><span>${pb.msg}</span></div></div>`;
+  // timed callback alert (fires ~10 min before a task's deadline time)
+  html+=callbackAlertHTML(fm);
 
   // Mandatory tab needs the day's notes (dialer completion = call + note).
   if(FMV.tab==='mand' && NOTES_LOADED_DAY!==STATE.sel.date){
@@ -2720,6 +2986,10 @@ function renderFMMobile(){
     GMEET_LOADED_DAY=STATE.sel.date;
     Promise.all([gmeetFetch(STATE.sel.date),attFetch(),gmeetGetSettings(),notesFetch(STATE.sel.date)]).then(()=>{ if(STATE.role==='fm'||AUTH.role==='fm'||STATE.sel.fm===fm) renderFMMobile(); });
   }
+
+  // If the plan lock is on, an FM can't be on the 'plan' tab — send them to
+  // the work list (mand), which itself shows only Dialer + Random when locked.
+  if(planLockedForViewer() && FMV.tab==='plan')FMV.tab='mand';
 
   // route to the active tab's body
   if(FMV.tab==='mand')       html+=fmMandBody(fm,byStage,plan);
@@ -2742,10 +3012,15 @@ function dialLeadCardHTML(fm,item,via,posTxt){
   const noted=!!LEAD_NOTES[l.key];
   const tel=telLink(l.ph);
   const commit=commitmentInfo(l);
+  const fresh=freshState(l);
+  let freshTag='';
+  if(fresh.decider)freshTag=`<div class="dial-commit overdue">⛔ Decider day — ${fresh.days} days in stage. Move to Lost, Future Sale, or the next stage today.</div>`;
+  else if(fresh.due)freshTag=`<div class="dial-commit due">🔄 Call-cycle due — ${fresh.days} days in stage</div>`;
   let html=`<div class="dial-card">
     <div class="dial-step">${esc(item.step||'')}</div>
     <div class="dial-name">${esc(l.name||l.key)}</div>
     <div class="dial-sub">${esc(l.ph||'no number')}${l.city?' · '+esc(l.city):''} · ${esc(l.status||'')}</div>
+    ${freshTag}
     ${commit?`<div class="dial-commit ${commit.overdue?'overdue':commit.due?'due':''}">${commit.text}</div>`:''}`;
   if(tel){
     html+=`<a class="dial-callbtn ${called?'called':''}" href="${tel}" data-dialcall="${esc(l.key)}" data-dialvia="${via}">
@@ -2832,8 +3107,10 @@ function fmMandBody(fm,byStage,plan){
     <div class="dial-pill"><b>${ds.randomUsed}/${DIAL_RANDOM_MAX}</b><span>Random used</span></div>
   </div>`;
   // ---- mode switch ----
+  const planLocked = planLockedForViewer();
+  if(planLocked && DIAL.mode==='list')DIAL.mode='dialer';   // no Checklist when locked
   html+=`<div class="dial-modes">
-    <button data-dialmode="list" class="${DIAL.mode==='list'?'on':''}">📋 Checklist</button>
+    ${planLocked?'':`<button data-dialmode="list" class="${DIAL.mode==='list'?'on':''}">📋 Checklist</button>`}
     <button data-dialmode="dialer" class="${DIAL.mode==='dialer'?'on':''}">📞 Dialer</button>
     <button data-dialmode="random" class="${DIAL.mode==='random'?'on':''}">🎲 Random</button>
   </div>`;
@@ -3321,6 +3598,14 @@ function fmRefreshSheet(){
 }
 
 function wireFMMobile(){
+  // callback alert: tapping call marks it and jumps to the dialer on that lead
+  const cb=$('#fmView [data-cbcall]');
+  if(cb)cb.addEventListener('click',()=>{
+    const fm=AUTH.fmName||STATE.sel.fm;
+    markCalled(fm,cb.dataset.cbcall,'dialer');
+    DIAL.mode='dialer';FMV.tab='mand';
+    setTimeout(renderFMMobile,150);
+  });
   // ---- Dialer wiring (Mandatory tab) ----
   $$('#fmView [data-dialmode]').forEach(b=>b.addEventListener('click',()=>{
     DIAL.mode=b.dataset.dialmode; renderFMMobile();
@@ -4243,7 +4528,7 @@ function reviewFMDetail(plan,activity,phase){
       }
       // cross-check: FM's dialer claim (call+note) vs real TeleCRM evidence
       // (CALLDETAILS/STATUSCHANGE) for this same day — flags a mismatch.
-      const unverified=claimedNotVerified(key,plan.fm,date);
+      const unverified=claimedNotVerified(key,plan.fm,plan.date);
       const unverHTML=unverified?`<div class="lead-unver">🚩 Claimed called + noted — not backed by CALLDETAILS/notes upload</div>`:'';
       html+=`<div class="rev-lead">
         <div class="rev-lead-main">
@@ -4359,6 +4644,7 @@ const REPORT_SLOTS=[
   {id:'status',label:'STATUSCHANGE', hint:'stage moves',     match:/statuschange|-status-/i,  icon:'🔀'},
   {id:'wa',    label:'WATSUP',       hint:'WhatsApp sent',   match:/watsup|whatsapp|-watsup-/i,icon:'💬'},
   {id:'note',  label:'USERNOTE',     hint:'notes added',     match:/usernote|-note-|^note/i,  icon:'📝'},
+  {id:'tasks', label:'TASKS',        hint:'callback reminders',match:/task/i,                 icon:'⏰'},
 ];
 const SLOT_BY_ID=Object.fromEntries(REPORT_SLOTS.map(s=>[s.id,s]));
 
@@ -4367,6 +4653,7 @@ function detectSlot(fname,text){
   for(const s of REPORT_SLOTS) if(s.match.test(fname)) return s.id;
   // header sniff fallback
   const head=(text.split('\n')[0]||'').toLowerCase();
+  if(head.includes('task deadline')&&head.includes('task assignee'))return 'tasks';
   if(head.includes('call type')&&head.includes('duration'))return 'call';
   if(head.includes('from status')&&head.includes('to status'))return 'status';
   if(head.includes('whatsapp message type'))return 'wa';
@@ -4423,7 +4710,7 @@ function buildUploader(cfg){
       </div>
     </div>
     <div class="up-multi">
-      <button class="btn btn-primary btn-sm" id="${pfx}_multiBtn">⬆ Add all 5 at once</button>
+      <button class="btn btn-primary btn-sm" id="${pfx}_multiBtn">⬆ Add all 6 at once</button>
       <span class="up-multi-hint">Select all your report files together — they'll sort into the right slots automatically.</span>
     </div>
     <div class="up-slots" id="${pfx}_slots">
@@ -4479,6 +4766,7 @@ function buildUploader(cfg){
     if(allText){
       try{
         ingestBucket(allText);
+        if(store.files.tasks){try{ingestTasks(store.files.tasks.text);}catch(e){}}
         fillFMSelect();renderPlan();updateFooter();
       }catch(err){toast(err.message||'Bad ALLREPORT','bad');delete store.files.all;paintSlot(cfg,'all');}
     }
@@ -4536,9 +4824,20 @@ async function acceptFile(cfg,file,slotHint){
       ingestBucket(text);
       fillFMSelect();            // populate dropdown NOW (bucket is set)
       renderPlan();updateFooter();
+      // if a TASKS file was already added, (re)process it now the bucket exists
+      if(cfg.store.files.tasks){try{ingestTasks(cfg.store.files.tasks.text);}catch(e){}}
       await persist();           // async save after UI is updated
       toast('Bucket loaded — '+STATE.bucket.leads.length+' leads','ok');
     }catch(err){toast(err.message||'Bad ALLREPORT','bad');delete cfg.store.files.all;paintSlot(cfg,'all');}
+  }
+  // TASKS report → parse callback reminders (needs the bucket for matching)
+  if(cfg.phase==='plan'&&detected==='tasks'){
+    try{
+      const r=ingestTasks(text);
+      renderPlan();
+      await persist();
+      toast('Tasks loaded — reminders across '+r.dates+' day(s)','ok');
+    }catch(err){toast(err.message||'Bad TASKS file','bad');delete cfg.store.files.tasks;paintSlot(cfg,'tasks');}
   }
   updateUpStatus(cfg);
 }
@@ -4915,6 +5214,19 @@ function renderPip(){
     </div>
   </div></div>`;
 
+  // ---- Plan lock (hide checklist + plan-your-day from FMs) ----
+  const pla=!!GMEET_SETTINGS.plan_lock_active;
+  html+=`<div class="card" style="margin-bottom:14px"><div class="card-pad">
+    <div class="sec-head"><span class="must">🔒</span><h2>Plan lock (FM view)</h2>
+      <span id="planLockBadge" style="margin-left:auto;font-size:12px;font-weight:800;padding:4px 12px;border-radius:20px;background:${pla?'#fee2e2':'var(--idle-bg)'};color:${pla?'#991b1b':'var(--mut)'}">${pla?'LOCKED':'OPEN'}</span></div>
+    <div class="sec-sub">The app auto-builds each FM's plan in the morning. Flip this <b>on</b> once you're happy with it to hide the <b>Mandatory checklist</b> and <b>Plan your day</b> tab from all FMs — they'll see only <b>Dialer</b> and <b>Random</b> and just work the leads. Applies to everyone.</div>
+    <div class="tglrow">
+      <label class="tglswitch"><input type="checkbox" id="planLockOn" ${pla?'checked':''}><span class="tgl-track"></span></label>
+      <span class="tgl-label" id="planLockLabel">${pla?'Locked — FMs see Dialer + Random only':'Open — FMs see the full plan'}</span>
+      <span class="gm-save-msg" id="planLockMsg" style="margin-left:auto"></span>
+    </div>
+  </div></div>`;
+
   // ---- G-Meet cutoff settings card ----
   const gs=GMEET_SETTINGS;
   const cutoffVal=(gs.cutoff_local||'19:30').slice(0,5);   // HH:MM for the time input
@@ -5089,6 +5401,31 @@ function wirePipCfg(){
       renderPip();toast('G-Meet cutoff saved','ok');
     }else{
       if(gmMsg){gmMsg.textContent='Save failed';gmMsg.className='gm-save-msg bad';}
+      toast('Could not save — check connection','bad');
+    }
+  });
+  // plan lock (hide checklist + plan-your-day from FMs) — saves on flip
+  const planLockOn=$('#planLockOn'), planLockMsg=$('#planLockMsg'),
+        planLockBadge=$('#planLockBadge'), planLockLabel=$('#planLockLabel');
+  if(planLockOn)planLockOn.addEventListener('change',async()=>{
+    const on=planLockOn.checked;
+    // reflect immediately
+    if(planLockBadge){planLockBadge.textContent=on?'LOCKED':'OPEN';planLockBadge.style.background=on?'#fee2e2':'var(--idle-bg)';planLockBadge.style.color=on?'#991b1b':'var(--mut)';}
+    if(planLockLabel)planLockLabel.textContent=on?'Locked — FMs see Dialer + Random only':'Open — FMs see the full plan';
+    if(planLockMsg){planLockMsg.textContent='Saving…';planLockMsg.className='gm-save-msg';}
+    planLockOn.disabled=true;
+    const ok=await gmeetSaveSettings({plan_lock_active:on});
+    planLockOn.disabled=false;
+    if(ok){
+      GMEET_SETTINGS={...GMEET_SETTINGS,plan_lock_active:on};
+      if(planLockMsg){planLockMsg.textContent='✓ Saved';planLockMsg.className='gm-save-msg ok';}
+      toast(on?'Plan locked — FMs see Dialer + Random only':'Plan unlocked — FMs see full plan','ok');
+    }else{
+      // revert the switch on failure
+      planLockOn.checked=!on;
+      if(planLockBadge){planLockBadge.textContent=!on?'LOCKED':'OPEN';planLockBadge.style.background=!on?'#fee2e2':'var(--idle-bg)';planLockBadge.style.color=!on?'#991b1b':'var(--mut)';}
+      if(planLockLabel)planLockLabel.textContent=!on?'Locked — FMs see Dialer + Random only':'Open — FMs see the full plan';
+      if(planLockMsg){planLockMsg.textContent='Save failed';planLockMsg.className='gm-save-msg bad';}
       toast('Could not save — check connection','bad');
     }
   });
