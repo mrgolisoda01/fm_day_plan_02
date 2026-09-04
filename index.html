@@ -810,6 +810,72 @@ body.is-fm .admin-view{display:none}   /* hide the admin plan/phases when FM */
   .brand-txt span{display:none}
   .score-grid{grid-template-columns:1fr 1fr}
 }
+/* ---- Day-type mini calendar ---- */
+.dtcal-hd{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.dtcal-hd b{font-size:14px;flex:1;text-align:center}
+.dtcal-hd button{border:1px solid var(--line);background:#fff;border-radius:8px;width:30px;height:30px;cursor:pointer;font-size:15px;font-weight:800;color:var(--ink)}
+.dtcal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.dtcal-dow{font-size:10.5px;font-weight:800;color:var(--mut);text-align:center;padding:3px 0;text-transform:uppercase}
+.dtcal-cell{border:1px solid var(--line);background:#fff;border-radius:8px;min-height:38px;cursor:pointer;font-size:12.5px;font-weight:700;color:var(--ink);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;padding:3px 0;transition:.12s}
+.dtcal-cell:hover{border-color:var(--cyan)}
+.dtcal-cell.out{opacity:.32;cursor:default}
+.dtcal-cell.heavy{background:#fef3c7;border-color:#fcd34d;color:#92400e}
+.dtcal-cell.least{background:#dbeafe;border-color:#93c5fd;color:#1e40af}
+.dtcal-cell.today{outline:2px solid var(--cyan);outline-offset:1px}
+.dtcal-cell .tt{font-size:8.5px;font-weight:800;letter-spacing:.02em;text-transform:uppercase}
+.dtcal-legend{display:flex;gap:14px;align-items:center;margin-top:8px;font-size:11.5px;color:var(--mut);flex-wrap:wrap}
+.dtcal-legend .lg{display:flex;align-items:center;gap:5px;font-weight:700}
+.dtcal-legend .sw{width:12px;height:12px;border-radius:4px;border:1px solid var(--line)}
+.dtcal-counts{margin-left:auto;font-weight:800;color:var(--ink)}
+/* ---- Per-lead note dropdown (admin review) ---- */
+.lead-note-dd{margin-top:5px}
+.lead-note-dd summary{cursor:pointer;list-style:none;display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:800;padding:3px 10px;border-radius:14px;border:1px solid var(--line);background:var(--card-2);color:var(--ink);user-select:none}
+.lead-note-dd summary::-webkit-details-marker{display:none}
+.lead-note-dd summary .caret{transition:.15s}
+.lead-note-dd[open] summary .caret{transform:rotate(180deg)}
+.lead-note-dd .note-sent{font-size:10px;padding:1px 7px}
+.lead-note-body{margin-top:6px;font-size:12.5px;background:#fff;border:1px solid var(--line-2);border-radius:8px;padding:9px 11px;color:var(--ink);line-height:1.45}
+.lead-note-body .nb-move{margin-top:5px;font-size:11px;color:var(--mut);font-weight:700}
+.lnf-row{display:flex;gap:7px;flex-wrap:wrap;margin:10px 0 12px}
+.lnf-row .nfbtn{cursor:pointer}
+/* ---- Dialer ---- */
+.dial-bar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.dial-pill{flex:1;min-width:100px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:8px 10px;text-align:center}
+.dial-pill b{display:block;font-size:17px;font-family:var(--f-disp)}
+.dial-pill span{font-size:10.5px;font-weight:800;color:var(--mut);text-transform:uppercase;letter-spacing:.03em}
+.dial-pill.ok{border-color:#86efac;background:#f0fdf4}
+.dial-modes{display:flex;gap:6px;margin-bottom:12px}
+.dial-modes button{flex:1;border:1px solid var(--line);background:#fff;border-radius:9px;padding:9px 6px;font-size:12.5px;font-weight:800;cursor:pointer;color:var(--mut)}
+.dial-modes button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.dial-card{background:#fff;border:1.5px solid var(--cyan);border-radius:14px;padding:16px;margin-bottom:12px}
+.dial-step{font-size:10.5px;font-weight:800;color:var(--cyan-d);text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px}
+.dial-name{font-size:19px;font-weight:800;margin-bottom:2px}
+.dial-sub{font-size:12.5px;color:var(--mut);margin-bottom:12px}
+.dial-commit{font-size:12px;font-weight:700;color:#1e40af;background:#dbeafe;border-radius:8px;padding:6px 10px;margin:-2px 0 12px}
+.dial-commit.due{color:#166534;background:#dcfce7}
+.dial-commit.overdue{color:#991b1b;background:#fee2e2}
+.dial-callbtn{display:flex;align-items:center;justify-content:center;gap:9px;background:var(--ok);color:#fff;border-radius:12px;padding:14px;font-size:16px;font-weight:800;text-decoration:none;margin-bottom:10px}
+.dial-callbtn.called{background:#e2e8f0;color:#475569}
+.dial-chips{display:flex;gap:8px;margin-bottom:10px}
+.dial-chip{flex:1;text-align:center;font-size:11.5px;font-weight:800;padding:6px;border-radius:8px;background:var(--idle-bg);color:var(--mut)}
+.dial-chip.done{background:#dcfce7;color:#166534}
+.dial-pos{font-size:11.5px;font-weight:800;color:var(--mut);text-align:center;margin-top:8px}
+.dial-lockmsg{font-size:12px;color:var(--mut);background:var(--card-2);border:1px dashed var(--line);border-radius:9px;padding:9px 12px;margin-bottom:10px;text-align:center}
+.dial-randbtn{width:100%;border:none;background:var(--cyan-d);color:#fff;border-radius:12px;padding:13px;font-size:15px;font-weight:800;cursor:pointer;margin-bottom:10px}
+.dial-randbtn:disabled{background:#cbd5e1;cursor:not-allowed}
+.dial-srch{width:100%;min-height:40px;border:1px solid var(--line);border-radius:10px;padding:9px 12px;font-size:13.5px;margin-bottom:8px;font-family:var(--f-body)}
+.dial-srow{display:flex;align-items:center;gap:10px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:9px 12px;margin-bottom:6px}
+.dial-srow .sn{flex:1;min-width:0}
+.dial-srow .sn b{display:block;font-size:13px}
+.dial-srow .sn span{font-size:11px;color:var(--mut)}
+.dial-srow .pickbtn{border:1px solid var(--cyan-d);color:var(--cyan-d);background:#fff;border-radius:8px;padding:6px 13px;font-size:12px;font-weight:800;cursor:pointer;white-space:nowrap}
+/* ---- Scheduled visit date (note form) ---- */
+.note-visitrow{margin:8px 0}
+.note-visitrow label{display:block;font-size:12px;font-weight:800;color:var(--ink);margin-bottom:4px}
+.note-visit-sub{font-weight:500;color:var(--mut);font-size:11px}
+.note-visitinput{width:100%;border:1px solid var(--line);border-radius:9px;padding:8px 11px;font-size:13.5px;font-family:var(--f-body)}
+.note-visit{margin-top:6px;font-size:12px;font-weight:700;color:#9a3412;background:#ffedd5;border-radius:8px;padding:6px 10px}
+.lead-unver{margin-top:6px;font-size:11.5px;font-weight:700;color:#991b1b;background:#fee2e2;border:1px solid #fca5a5;border-radius:8px;padding:6px 10px}
 </style>
 </head><body class="is-admin">
 
@@ -912,6 +978,16 @@ body.is-fm .admin-view{display:none}   /* hide the admin plan/phases when FM */
             Unlock plan
           </button>
         </div>
+      </div>
+    </div>
+
+    <!-- Day type (Heavy / Least) — admin assigns per week or per month -->
+    <div class="card admin-only" style="margin-bottom:14px">
+      <div class="card-pad">
+        <div class="sec-head"><span class="must">🗓</span><h2>Day type</h2>
+          <span id="dayTypeBadge" style="margin-left:auto;font-size:12px;font-weight:800;padding:4px 12px;border-radius:20px;background:var(--idle-bg);color:var(--mut)"></span></div>
+        <div class="sec-sub">The app decides Heavy/Least per FM automatically. Tap a date to OVERRIDE it for everyone: <b>auto → Heavy → Least → auto</b>. Changes save automatically. <b>Heavy</b>: EI-2 · EI · Ready to Meet · Fresh-Recaptured. <b>Least</b>: Fresh · Market Visit · Callback · Try 1–5 · G-Meet.</div>
+        <div id="dtCal"></div>
       </div>
     </div>
 
@@ -1434,6 +1510,41 @@ const NOTE_TEMPLATES={
 };
 let LEAD_NOTES={};          // { lead_key: latest note row } for the loaded day
 let NOTES_LOADED_DAY=null;
+/* Month-scoped "was this lead noted on this date" cache, used ONLY by
+   attendance (attState) — it must check mandatory-completion for many
+   past dates at once, which the single-day LEAD_NOTES cache can't do.
+   Key: "YYYY-MM" → Set of "leadKey|YYYY-MM-DD" that have a note. */
+const MONTH_NOTES_CACHE={};
+let MONTH_NOTES_LOADING=null;
+async function monthNotesFetch(y,m){
+  const mk=y+'-'+String(m+1).padStart(2,'0');
+  if(MONTH_NOTES_CACHE[mk])return MONTH_NOTES_CACHE[mk];
+  if(MONTH_NOTES_LOADING===mk)return null;      // already in flight
+  MONTH_NOTES_LOADING=mk;
+  try{
+    const from=mk+'-01';
+    const lastDay=new Date(y,m+1,0).getDate();
+    const to=mk+'-'+String(lastDay).padStart(2,'0');
+    const r=await fetch(SB_URL+'/lead_notes?day=gte.'+from+'&day=lte.'+to+'&select=day,lead_key',{headers:sbAuthHeaders()});
+    if(!r.ok)throw new Error('HTTP '+r.status);
+    const rows=await r.json();
+    const set=new Set(rows.map(row=>row.lead_key+'|'+row.day));
+    MONTH_NOTES_CACHE[mk]=set;
+    return set;
+  }catch(e){return null;}
+  finally{MONTH_NOTES_LOADING=null;}
+}
+/* Was this lead noted on this exact date, per the month cache?
+   Falls back to the live LEAD_NOTES cache when it's the selected day
+   (covers the case before the month cache has finished loading). */
+function wasNotedOn(leadKey,dateISO){
+  const [y,m]=dateISO.split('-').map(Number);
+  const mk=y+'-'+String(m).padStart(2,'0');
+  const set=MONTH_NOTES_CACHE[mk];
+  if(set)return set.has(leadKey+'|'+dateISO);
+  if(dateISO===STATE.sel.date)return !!LEAD_NOTES[leadKey];
+  return false;   // month not loaded yet — treated as not-noted until it arrives
+}
 async function notesFetch(day){
   try{
     const r=await fetch(SB_URL+'/lead_notes?day=eq.'+encodeURIComponent(day)+'&select=*&order=created_at.desc',{headers:sbAuthHeaders()});
@@ -1445,11 +1556,12 @@ async function notesFetch(day){
     return map;
   }catch(e){return {};}
 }
-async function noteSave(day, leadKey, leadName, fmName, sentiment, template, noteText, fromStatus, toStatus){
+async function noteSave(day, leadKey, leadName, fmName, sentiment, template, noteText, fromStatus, toStatus, visitDate){
   try{
     const row={day, lead_key:leadKey, lead_name:leadName||'', fm_name:fmName||'',
       sentiment, template:template||'', note_text:noteText||'',
       from_status:fromStatus||'', to_status:toStatus||''};
+    if(visitDate!==undefined)row.visit_date=visitDate||null;
     const r=await fetch(SB_URL+'/lead_notes',{
       method:'POST',
       headers:{...sbAuthHeaders(),'Prefer':'return=minimal'},
@@ -1458,10 +1570,58 @@ async function noteSave(day, leadKey, leadName, fmName, sentiment, template, not
     return r.ok;
   }catch(e){return false;}
 }
+/* ---- Notes CSV export (admin) ----
+   LEAD_NOTES keeps only the newest note per lead for display, so the
+   export fetches EVERY note row of the day fresh — the full data. */
+async function notesFetchAll(day){
+  const r=await fetch(SB_URL+'/lead_notes?day=eq.'+encodeURIComponent(day)+'&select=*&order=created_at.asc',{headers:sbAuthHeaders()});
+  if(!r.ok)throw new Error('HTTP '+r.status);
+  return await r.json();
+}
+function csvCell(v){
+  const s=(v==null?'':String(v));
+  return '"'+s.replace(/"/g,'""')+'"';
+}
+async function notesCsvDownload(day){
+  let rows;
+  try{rows=await notesFetchAll(day);}
+  catch(e){toast('Could not fetch notes — check connection','bad');return;}
+  if(!rows.length){toast('No notes saved for '+isoToDMY(day),'bad');return;}
+  // contact: lead_key is usually the phone; fall back to the bucket lead's number
+  const contactOf=row=>{
+    const k=row.lead_key||'';
+    if(/^\d{10,}$/.test(k))return k;
+    const l=leadByKey(k);return (l&&l.ph)||k;
+  };
+  const head=['Date','Time','FM','Lead name','Contact','Sentiment','Template','Note','From status','To status'];
+  const lines=[head.map(csvCell).join(',')];
+  for(const n of rows){
+    const t=n.created_at?new Date(n.created_at):null;
+    lines.push([
+      n.day||day,
+      t?t.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'}):'',
+      n.fm_name||'',
+      n.lead_name||n.lead_key||'',
+      contactOf(n),
+      (NOTE_TEMPLATES[n.sentiment]&&NOTE_TEMPLATES[n.sentiment].label)||n.sentiment||'',
+      n.template||'',
+      n.note_text||'',
+      n.from_status||'',
+      n.to_status||''
+    ].map(csvCell).join(','));
+  }
+  const blob=new Blob(['\uFEFF'+lines.join('\r\n')],{type:'text/csv;charset=utf-8'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='FM_Notes_'+day+'.csv';
+  document.body.appendChild(a);a.click();
+  setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},400);
+  toast(rows.length+' notes exported','ok');
+}
 /* Attendance badge for an FM on a day (day-end display). */
 function attBadgeHTML(fmName, dateISO){
   const s=attState(fmName,dateISO);
-  const map={present:{c:'p',t:'Present'},perf:{c:'r',t:'Absent · under target'},noplan:{c:'o',t:'Absent · no plan on time'},leave:{c:'y',t:'Leave'},holiday:{c:'g',t:'Holiday'},none:{c:'n',t:''}};
+  const map={present:{c:'p',t:'Present'},perf:{c:'r',t:'Absent · under target'},leave:{c:'y',t:'Leave'},holiday:{c:'g',t:'Holiday'},none:{c:'n',t:''}};
   const m=map[s.state]||map.none;
   if(!m.t)return '';
   // for leave/holiday, append reason if present
@@ -1473,7 +1633,7 @@ function attBadgeHTML(fmName, dateISO){
 
 /* Resolve a day's attendance state for an FM.
    Priority: Holiday > Leave > auto (performance/plan) > blank.
-   Returns {state, label} where state ∈ present|noplan|perf|leave|holiday|none */
+   Returns {state, label} where state ∈ present|perf|leave|holiday|none */
 function attState(fmName, dateISO){
   // holiday for all, or holiday for this FM
   const hol=ATT_OVERRIDES.find(o=>o.day===dateISO && o.kind==='holiday' && (!o.fm_name||o.fm_name===fmName));
@@ -1484,25 +1644,18 @@ function attState(fmName, dateISO){
   // leave for this FM
   const lv=ATT_OVERRIDES.find(o=>o.day===dateISO && o.kind==='leave' && o.fm_name===fmName);
   if(lv)return {state:'leave',label:'Leave'+(lv.reason?' · '+lv.reason:'')};
-  // auto: find this FM's plan for the day
-  const plan=Object.values(STATE.plans).find(p=>p.fm===fmName && p.date===dateISO && p.submittedAt);
+  // auto: attendance now needs BOTH conditions —
+  //  (a) 240+ min talk time that day, AND
+  //  (b) every mandatory-plan lead VERIFIED against real TeleCRM evidence
+  //      (a real call attempt + a real note action that day) — not just
+  //      the FM's own dialer taps.
   const act=STATE.dayActivity[dateISO];
-  const hasData = plan || act;
-  if(!hasData)return {state:'none',label:''};   // no data yet → blank
-  // planned on time?  (submittedAt time-of-day < plan cutoff) — only if the plan lock is ON
-  const planLockOn = GMEET_SETTINGS.plan_lock_enabled!==false;
-  const cutoff=(GMEET_SETTINGS.plan_cutoff_local||'10:30');
-  const [ch,cm]=cutoff.split(':').map(Number);
-  let plannedOnTime=false;
-  if(plan&&plan.submittedAt){
-    const t=new Date(plan.submittedAt);
-    plannedOnTime = (t.getHours()*60+t.getMinutes()) <= (ch*60+cm);
-  }
-  if(!plan)return {state:'noplan',label:'No plan submitted'};
-  if(planLockOn && !plannedOnTime)return {state:'noplan',label:'No plan by '+to12h(cutoff)};
-  // hit 240?
-  const talk=act?fmTalkMins(act,fmName):0;
-  if(talk>=MIN_PLAN_MINS)return {state:'present',label:'Present · '+talk+'m'};
+  if(!act)return {state:'none',label:''};       // no activity data yet → blank
+  const talk=fmTalkMins(act,fmName);
+  const vs=verifiedMandStatus(fmName,dateISO);
+  const mandOK = vs.total===0 || vs.done>=vs.total;
+  if(talk>=MIN_PLAN_MINS && mandOK)return {state:'present',label:'Present · '+talk+'m · mandatory verified'};
+  if(talk>=MIN_PLAN_MINS && !mandOK)return {state:'mandmiss',label:talk+'m but mandatory not verified ('+vs.done+'/'+vs.total+')'};
   return {state:'perf',label:'Under target · '+talk+'m'};
 }
 
@@ -1532,12 +1685,15 @@ const STATE={
   dayActivity:{},     // dateISO -> full activity map (for redrawing review per date)
   coverage:{},        // dateISO -> {all:rows, call:rows, status:rows, wa:rows, note:rows}
   phaseDone:{},       // dateISO -> {plan:ms, mid:ms, eod:ms}  when each phase was done
+  dayTypes:{},        // dateISO -> 'heavy' | 'least'  (admin-assigned day type)
+  dialCalls:{},       // "fm|date" -> { leadKey: {t:ms, via:'dialer'|'random'} }  call taps
+  visitDates:{},      // leadKey -> {date:'YYYY-MM-DD', fm, leadName, setAt}  scheduled Ready-to-Meet / Market-Visit date
 };
 let UP_MORNING=null, UP_MID=null, UP_EOD=null;
 function planKey(fm,date){return fm+'|'+date;}
 /* Point STATE.bucket at the given date's stored bucket (or null if none). */
 function useBucketForDate(date){STATE.bucket = STATE.buckets[date] || null;}
-const SYNC_KEYS=['buckets','plans','pipDays','pipCfg','dayActivity','coverage','stageRules','phaseDone'];
+const SYNC_KEYS=['buckets','plans','pipDays','pipCfg','dayActivity','coverage','stageRules','phaseDone','dayTypes','dialCalls','visitDates'];
 async function persist(){
   const now=Date.now();
   const sr=currentStageRules();
@@ -1546,6 +1702,9 @@ async function persist(){
   await idbSet('dayActivity',STATE.dayActivity);await idbSet('coverage',STATE.coverage);
   await idbSet('stageRules',sr);
   await idbSet('phaseDone',STATE.phaseDone);
+  await idbSet('dayTypes',STATE.dayTypes);
+  await idbSet('dialCalls',STATE.dialCalls);
+  await idbSet('visitDates',STATE.visitDates);
   await idbSet('_ts',now);
   // mark every key as locally-current as of now, so we don't re-pull our own writes
   const kt=(await idbGet('_keyTs'))||{};
@@ -1555,7 +1714,9 @@ async function persist(){
     sbSetBuckets(STATE.buckets),sbSet('plans',STATE.plans),
     sbSet('pipDays',STATE.pipDays),sbSet('pipCfg',STATE.pipCfg),
     sbSet('dayActivity',STATE.dayActivity),sbSet('coverage',STATE.coverage),
-    sbSet('stageRules',sr),sbSet('phaseDone',STATE.phaseDone)
+    sbSet('stageRules',sr),sbSet('phaseDone',STATE.phaseDone),
+    sbSet('dayTypes',STATE.dayTypes),sbSet('dialCalls',STATE.dialCalls),
+    sbSet('visitDates',STATE.visitDates)
   ]).then(()=>{if(!SB_OK&&typeof toast==='function')toast('Saved locally — cloud sync unavailable','bad');});
 }
 async function loadState(){
@@ -1568,6 +1729,9 @@ async function loadState(){
   const da=await idbGet('dayActivity');if(da)STATE.dayActivity=da;
   const cv=await idbGet('coverage');if(cv)STATE.coverage=cv;
   const phd=await idbGet('phaseDone');if(phd)STATE.phaseDone=phd;
+  const dt=await idbGet('dayTypes');if(dt)STATE.dayTypes=dt;
+  const dc=await idbGet('dialCalls');if(dc)STATE.dialCalls=dc;
+  const vd=await idbGet('visitDates');if(vd)STATE.visitDates=vd;
   const sr=await idbGet('stageRules');if(sr)applyStageRules(sr);
   // per-key last-synced timestamps (fixes: a new admin upload must reach FMs even
   // if their phone saved a plan more recently). Falls back to the old global _ts.
@@ -1586,7 +1750,7 @@ async function loadState(){
       const localKeyTs=keyTs[k]!=null?keyTs[k]:globalTs;
       const localMissing=(k==='buckets'&&!bk)||(k==='plans'&&!p)||(k==='pipDays'&&!pd)||
                       (k==='pipCfg'&&!pc)||(k==='dayActivity'&&!da)||(k==='coverage'&&!cv)||
-                      (k==='stageRules'&&!sr)||(k==='phaseDone'&&!phd);
+                      (k==='stageRules'&&!sr)||(k==='phaseDone'&&!phd)||(k==='dayTypes'&&!dt)||(k==='dialCalls'&&!dc)||(k==='visitDates'&&!vd);
       if(localMissing || cloudTs>localKeyTs){
         if(k==='pipCfg')STATE.pipCfg={...STATE.pipCfg,...row.value};
         else if(k==='stageRules')applyStageRules(row.value);
@@ -1613,6 +1777,9 @@ async function loadState(){
       await idbSet('pipDays',STATE.pipDays);await idbSet('pipCfg',STATE.pipCfg);
       await idbSet('dayActivity',STATE.dayActivity);await idbSet('coverage',STATE.coverage);
       await idbSet('phaseDone',STATE.phaseDone);
+      await idbSet('dayTypes',STATE.dayTypes);
+      await idbSet('dialCalls',STATE.dialCalls);
+      await idbSet('visitDates',STATE.visitDates);
       await idbSet('stageRules',currentStageRules());
       await idbSet('_keyTs',newKeyTs);
       await idbSet('_ts',Date.now());
@@ -1666,18 +1833,23 @@ function ingestBucket(text){
 }
 
 /* leads for one FM, grouped by stage */
-function fmLeadsByStage(fm){
+function fmLeadsByStage(fm,date){
+  date=date||STATE.sel.date;
   const out={};STAGES.forEach(s=>out[s.id]=[]);
-  if(!STATE.bucket)return out;
-  for(const l of STATE.bucket.leads){
+  const bk=STATE.buckets[date];
+  if(!bk)return out;
+  for(const l of bk.leads){
     if(l.fm!==fm)continue;
     if(out[l.stage])out[l.stage].push(l);
   }
-  // sort each: by name
   for(const k in out)out[k].sort((a,b)=>a.name.localeCompare(b.name));
   return out;
 }
-function leadByKey(k){return STATE.bucket?.leads.find(l=>l.key===k)||null;}
+function leadByKey(k,date){
+  date=date||STATE.sel.date;
+  const bk=STATE.buckets[date];
+  return bk?.leads.find(l=>l.key===k)||null;
+}
 
 /* ============================================================
    MANDATORY DAY-PLAN (Batch 2)
@@ -1688,8 +1860,8 @@ function leadByKey(k){return STATE.bucket?.leads.find(l=>l.key===k)||null;}
 const MANDATORY_ORDER=[
   {id:'freshcap', label:'Fresh – Recaptured',
    pick:l=>true},                                   // all recaptured
-  {id:'fresh_y',  label:'Fresh – targeted yesterday', stage:'fresh',
-   pick:l=>l.createdDays===1},                       // created yesterday
+  {id:'fresh_y',  label:'Fresh – new (today/yesterday)', stage:'fresh',
+   pick:l=>l.createdDays!=null&&l.createdDays<=1},     // created today or yesterday
   {id:'mv',       label:'Market Visit',
    pick:l=>(daysSinceCall(l)>=3)||(l.stageDays!=null&&l.stageDays>=21)},
   {id:'r2m',      label:'Ready To Meet',
@@ -1703,6 +1875,80 @@ const MANDATORY_ORDER=[
   {id:'rfc',      label:'Request for Call Back',
    pick:l=>reminderDueToday(l)},                      // reminder/follow-up today
 ];
+/* ---- DAY TYPES (Heavy / Least) --------------------------------
+   Admin assigns each date a type (per week or per month). The
+   mandatory step order below is filtered/re-ordered by type.
+   Unset dates fall back to the full legacy MANDATORY_ORDER, so
+   nothing changes until admin sets a type. Pick conditions are
+   the same ones defined in MANDATORY_ORDER.                    */
+function dayTypeOf(date){return STATE.dayTypes[date]||null;}
+const MAND_STEP_BY_ID=Object.fromEntries(MANDATORY_ORDER.map(s=>[s.id,s]));
+/* extra steps that exist only in the Least-day sequence */
+const MAND_EXTRA_STEPS={
+  try:  {id:'try',   label:'Try 1–5 Not Connected', pick:l=>true},
+  gmeet:{id:'gmeet', label:'G-Meet Scheduled',      pick:l=>true},
+};
+function mandStep(id){return MAND_STEP_BY_ID[id]||MAND_EXTRA_STEPS[id];}
+/* Fixed calling order per day type (user-specified) */
+const DAYTYPE_ORDERS={
+  heavy:['freshcap','ei2','ei','r2m'],
+  least:['freshcap','fresh_y','fresh_o','mv','rfc','try','gmeet'],
+};
+const DAYTYPE_LABEL={heavy:'Heavy day',least:'Least day'};
+/* ---- Day-type mini calendar (admin) ----
+   Tap a date to cycle none → heavy → least → none. Month nav.
+   Persists on a short debounce so rapid taps = one save. */
+const DT_CAL={y:null,m:null};
+let DT_SAVE_T=null;
+function dtISO(y,m,d){return y+'-'+String(m+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');}
+function renderDayTypeCal(){
+  const host=$('#dtCal');if(!host)return;
+  if(DT_CAL.y==null){const b=new Date(STATE.sel.date+'T00:00:00');DT_CAL.y=b.getFullYear();DT_CAL.m=b.getMonth();}
+  const {y,m}=DT_CAL;
+  const monthName=new Date(y,m,1).toLocaleDateString('en-GB',{month:'long',year:'numeric'});
+  const first=new Date(y,m,1);
+  const lead=(first.getDay()+6)%7;                 // Mon=0 … Sun=6
+  const days=new Date(y,m+1,0).getDate();
+  const today=todayISO();
+  let heavyN=0,leastN=0;
+  for(let d=1;d<=days;d++){const t=STATE.dayTypes[dtISO(y,m,d)];if(t==='heavy')heavyN++;else if(t==='least')leastN++;}
+  let html=`<div class="dtcal-hd"><button id="dtPrev" type="button">‹</button><b>${monthName}</b><button id="dtNext" type="button">›</button></div>`;
+  html+=`<div class="dtcal-grid">`;
+  for(const d of ['Mo','Tu','We','Th','Fr','Sa','Su'])html+=`<div class="dtcal-dow">${d}</div>`;
+  for(let i=0;i<lead;i++)html+=`<div class="dtcal-cell out"></div>`;
+  for(let d=1;d<=days;d++){
+    const iso=dtISO(y,m,d);
+    const t=STATE.dayTypes[iso]||'';
+    html+=`<div class="dtcal-cell ${t} ${iso===today?'today':''}" data-dtday="${iso}">${d}${t?`<span class="tt">${t==='heavy'?'Heavy':'Least'}</span>`:''}</div>`;
+  }
+  html+=`</div>`;
+  html+=`<div class="dtcal-legend">
+    <span class="lg"><span class="sw" style="background:#fef3c7;border-color:#fcd34d"></span>Heavy</span>
+    <span class="lg"><span class="sw" style="background:#dbeafe;border-color:#93c5fd"></span>Least</span>
+    <span class="lg"><span class="sw" style="background:#fff"></span>Auto (app decides)</span>
+    <span class="dtcal-counts">${heavyN} heavy · ${leastN} least this month</span></div>`;
+  host.innerHTML=html;
+  $('#dtPrev').addEventListener('click',()=>{DT_CAL.m--;if(DT_CAL.m<0){DT_CAL.m=11;DT_CAL.y--;}renderDayTypeCal();});
+  $('#dtNext').addEventListener('click',()=>{DT_CAL.m++;if(DT_CAL.m>11){DT_CAL.m=0;DT_CAL.y++;}renderDayTypeCal();});
+  host.querySelectorAll('[data-dtday]').forEach(c=>c.addEventListener('click',()=>{
+    const iso=c.dataset.dtday;
+    const cur=STATE.dayTypes[iso]||'';
+    const next=cur===''?'heavy':cur==='heavy'?'least':'';
+    if(next)STATE.dayTypes[iso]=next; else delete STATE.dayTypes[iso];
+    clearTimeout(DT_SAVE_T);
+    DT_SAVE_T=setTimeout(()=>{persist();toast('Day types saved','ok');},900);
+    renderDayTypeCal();updateDayTypeBadge();
+    if(iso===STATE.sel.date)renderPlan();
+  }));
+}
+function updateDayTypeBadge(){
+  const b=$('#dayTypeBadge');if(!b)return;
+  const t=dayTypeOf(STATE.sel.date);
+  if(t==='heavy'){b.textContent='Heavy day';b.style.background='#fef3c7';b.style.color='#92400e';}
+  else if(t==='least'){b.textContent='Least day';b.style.background='#dbeafe';b.style.color='#1e40af';}
+  else{b.textContent='Auto (app decides)';b.style.background='var(--idle-bg)';b.style.color='var(--mut)';}
+}
+
 // days since the lead was last called — from the 'calls' field if present, else stageDays
 function daysSinceCall(l){
   // we don't have per-lead last-call date in the bucket; use stageDays as a proxy
@@ -1715,24 +1961,214 @@ function reminderDueToday(l){
   const d=parseDT(l.reminder);
   return d && d.day===STATE.sel.date;
 }
-/* Compute the mandatory leads for an FM, grouped by the ordered stage steps.
-   Returns [{id,label,stageId,leads:[...]}...] in the fixed calling order. */
-function mandatoryPlan(fm){
-  const byStage=fmLeadsByStage(fm);
-  const steps=[];
-  for(const step of MANDATORY_ORDER){
-    const srcStage=step.stage||step.id;      // which bucket to draw from
-    const pool=byStage[srcStage]||[];
-    const leads=pool.filter(step.pick);
-    steps.push({id:step.id, label:step.label, stageId:srcStage, leads});
+/* Describe any existing follow-up commitment on a lead — a reminder /
+   "Next Follow-up On" date set earlier — so a picked Random lead shows
+   WHY it's worth calling (a promised callback), not just that it's
+   available. Returns null when the lead has no reminder set. */
+function commitmentInfo(l){
+  if(!l.reminder)return null;
+  const d=parseDT(l.reminder);
+  if(!d)return {text:'📌 Follow-up noted: '+esc(l.reminder),due:false,overdue:false};
+  const today=STATE.sel.date;
+  if(d.day===today)return {text:'📌 Follow-up due today',due:true,overdue:false};
+  if(d.day<today)return {text:'📌 Follow-up was due '+isoToDMY(d.day)+' — overdue',due:false,overdue:true};
+  return {text:'📌 Follow-up committed for '+isoToDMY(d.day),due:false,overdue:false};
+}
+/* ============================================================
+   AUTO PLAN — time-budgeted selection (8-hour day)
+   The app fills each FM's day to PLAN_CAPACITY minutes using the
+   per-stage minute rules and share percentages already defined in
+   STAGES, and the mandatory conditions in MANDATORY_ORDER.
+   Day type is decided PER FM automatically (manual calendar set by
+   admin overrides it): if the qualifying high-intent (heavy-basket)
+   work alone can fill at least AUTO_HEAVY_MIN minutes, it's a
+   Heavy day — the pile-up gets cleared. Otherwise Least.
+   ============================================================ */
+const PLAN_CAPACITY=480;      // 8 working hours, in planned minutes
+const AUTO_HEAVY_MIN=240;     // heavy-basket minutes that trigger a Heavy day
+function stepCost(step){      // talk minutes per CONNECTED call (from stage)
+  const st=STAGE_BY_ID[step.stage||step.id];return st?st.min:5;
+}
+function stepRate(step){      // connect rate % — how many dials actually connect
+  const st=STAGE_BY_ID[step.stage||step.id];return (st&&st.share!=null)?st.share:1;
+}
+/* expected minutes one lead of this step consumes in the day budget:
+   talk-minutes × connect-rate (e.g. Fresh 20m × 50% = 10 expected min,
+   Try 20m × 10% = 2 expected min). */
+function stepExpMin(step){return stepCost(step)*stepRate(step);}
+/* qualifying leads of one step for an FM (condition applied) */
+function stepPool(byStage,step){
+  const src=step.stage||step.id;
+  return (byStage[src]||[]).filter(step.pick);
+}
+/* expected planned minutes the heavy basket alone could contribute */
+function heavyBasketMinutes(fm,date){
+  date=date||STATE.sel.date;
+  const byStage=fmLeadsByStage(fm,date);
+  let mins=0;
+  for(const id of DAYTYPE_ORDERS.heavy){
+    const step=mandStep(id);if(!step)continue;
+    mins+=stepPool(byStage,step).length*stepExpMin(step);
   }
+  return Math.round(mins);
+}
+/* Effective day type for an FM: manual calendar wins, else auto. */
+function fmDayType(fm,date){
+  date=date||STATE.sel.date;
+  const manual=dayTypeOf(date);
+  if(manual)return {type:manual, auto:false};
+  if(!STATE.buckets[date])return {type:'least', auto:true};
+  return {type:heavyBasketMinutes(fm,date)>=AUTO_HEAVY_MIN?'heavy':'least', auto:true};
+}
+/* Compute the auto plan: walk the day-type order, take ALL qualifying
+   leads per step (the % is a connect rate, NOT a pool cut), each lead
+   costing its EXPECTED minutes, until the 480-minute day is full.
+   If the own basket can't fill the day, borrow from the other basket. */
+function mandatoryPlan(fm,date){
+  date=date||STATE.sel.date;
+  const byStage=fmLeadsByStage(fm,date);
+  const dt=fmDayType(fm,date);
+  const steps=[];const seen=new Set();
+  let used=0;
+  // PINNED: leads whose FM scheduled a Ready-to-Meet / Market-Visit date that
+  // is THIS date go in first, always — outside the 480-min budget, ignoring
+  // day type/order. If the FM later changes the note's date, the old pin is
+  // gone and the new date carries it instead (latest date wins — see
+  // STATE.visitDates).
+  const pinned=Object.entries(STATE.visitDates)
+    .filter(([key,v])=>v.fm===fm && v.date===date)
+    .map(([key])=>leadByKey(key,date)).filter(Boolean);
+  if(pinned.length){
+    pinned.forEach(l=>seen.add(l.key));
+    steps.push({id:'pinned', label:'📌 Scheduled today (Ready to Meet / Market Visit)',
+      stageId:'pinned', leads:pinned, minsEach:0, pinned:true});
+  }
+  const addFrom=(orderIds,borrowed)=>{
+    for(const id of orderIds){
+      if(used>=PLAN_CAPACITY)break;
+      const step=mandStep(id);if(!step)continue;
+      const pool=stepPool(byStage,step).filter(l=>!seen.has(l.key));
+      if(!pool.length)continue;
+      const exp=stepExpMin(step);
+      const budgetN=exp>0?Math.floor((PLAN_CAPACITY-used)/exp):pool.length;
+      const takeN=Math.min(pool.length,Math.max(budgetN,1)); // ≥1 while under cap
+      const leads=pool.slice(0,takeN);
+      leads.forEach(l=>seen.add(l.key));
+      used+=leads.length*exp;
+      steps.push({id:(borrowed?'b_':'')+step.id,
+        label:step.label+(borrowed?' (borrowed)':''),
+        stageId:step.stage||step.id, leads, minsEach:exp});
+    }
+  };
+  const own=DAYTYPE_ORDERS[dt.type]||DAYTYPE_ORDERS.least;
+  const other=DAYTYPE_ORDERS[dt.type==='heavy'?'least':'heavy'];
+  addFrom(own,false);
+  if(used<PLAN_CAPACITY)addFrom(other,true);
   return steps;
 }
-/* All mandatory lead keys for an FM (flat set). */
+/* Expected planned minutes of the current auto plan (for display). */
+function planMinutes(fm,date){
+  return Math.round(mandatoryPlan(fm,date).reduce((a,s)=>a+s.leads.length*(s.minsEach||0),0));
+}
+/* ---- VERIFIED completion — cross-checked against real TeleCRM evidence ----
+   The dialer's "called + noted" is the FM's own claim, made in real time as
+   they work. Once admin uploads that day's activity (CALLDETAILS +
+   STATUSCHANGE/USERNOTE — the same files that already drive Progress/Result
+   grading), we can check the claim against reality: a lead only counts as
+   VERIFIED-done if the activity data shows a real call attempt AND a real
+   note action that day. This is what attendance now uses — not the
+   self-report. The live dialer (unlocking the next lead) still uses the
+   self-report in real time, since activity isn't uploaded yet mid-day. */
+function verifiedMandStatus(fm,dateISO){
+  const act=STATE.dayActivity[dateISO];
+  const list=dialList(fm,dateISO);
+  let done=0;const misses=[];
+  for(const it of list){
+    const a=act?act[it.lead.key]:null;
+    const calledOrTried=!!(a&&(a.connected||a.attempted));
+    const noted=!!(a&&a.noteAdded);
+    if(calledOrTried&&noted)done++;
+    else misses.push(it.lead);
+  }
+  return {done,total:list.length,misses};
+}
+/* Did the FM claim (tapped call + saved a note) a lead that the real
+   TeleCRM evidence does NOT back up? Surfaced to admin under the lead. */
+function claimedNotVerified(leadKey,fm,dateISO){
+  const act=STATE.dayActivity[dateISO];
+  if(!act)return false;                 // no activity uploaded yet — nothing to check against
+  const calls=dialCallsFor(fm,dateISO);
+  const claimed=!!calls[leadKey]&&wasNotedOn(leadKey,dateISO);
+  if(!claimed)return false;
+  const a=act[leadKey];
+  const verified=!!(a&&(a.connected||a.attempted)&&a.noteAdded);
+  return !verified;
+}
 function mandatoryKeys(fm){
   const set=new Set();
   for(const s of mandatoryPlan(fm))for(const l of s.leads)set.add(l.key);
   return set;
+}
+
+/* ============================================================
+   DIALER — one-by-one calling of the mandatory list
+   Touch = call tapped (tel:) + note saved in-app. The next lead
+   unlocks only when the current one is touched. Random calls
+   (any lead of the FM) top up the 80 but are capped at 15/day.
+   ============================================================ */
+/* Daily size now comes from the 480-min auto plan (PLAN_CAPACITY),
+   not a fixed lead count. Only the random cap remains fixed. */
+const DIAL_RANDOM_MAX=15;      // max random calls per day
+const DIAL={mode:'list', randKey:null, search:''};
+function dialCallsFor(fm,date){return STATE.dialCalls[planKey(fm,date||STATE.sel.date)]||{};}
+let DIAL_SAVE_T=null;
+function markCalled(fm,leadKey,via){
+  const k=planKey(fm,STATE.sel.date);
+  if(!STATE.dialCalls[k])STATE.dialCalls[k]={};
+  if(!STATE.dialCalls[k][leadKey])STATE.dialCalls[k][leadKey]={t:Date.now(),via:via||'dialer'};
+  clearTimeout(DIAL_SAVE_T);DIAL_SAVE_T=setTimeout(()=>persist(),900);
+}
+/* Coming back from the phone's dialer suspends the page mid-render;
+   repaint the FM view whenever the tab becomes visible again. */
+document.addEventListener('visibilitychange',()=>{
+  if(document.visibilityState==='visible'&&(AUTH.role==='fm'||STATE.role==='fm')&&FMV.tab==='mand'){
+    try{renderFMMobile();}catch(e){}
+  }
+});
+/* Ordered flat mandatory list for the dialer — the capped 65
+   (mandatoryPlan handles day-type order, borrow, and the cap).
+   Random calls cover the remaining 15 of the 80. */
+function dialList(fm,date){
+  const out=[];const seen=new Set();
+  for(const step of mandatoryPlan(fm,date)){
+    for(const l of step.leads){if(seen.has(l.key))continue;seen.add(l.key);out.push({lead:l,step:step.label});}
+  }
+  return out;
+}
+/* Per-lead + aggregate dial status for the day. */
+function dialStatus(fm,date){
+  date=date||STATE.sel.date;
+  const calls=dialCallsFor(fm,date);
+  const list=dialList(fm,date);
+  let mandDone=0;let current=null;let currentIdx=-1;
+  const rows=list.map((it,i)=>{
+    const called=!!calls[it.lead.key];
+    const noted=wasNotedOn(it.lead.key,date);
+    const done=called&&noted;
+    if(done)mandDone++;
+    else if(!current){current=it;currentIdx=i;}
+    return {...it,called,noted,done};
+  });
+  const mandKeys=new Set(list.map(it=>it.lead.key));
+  let randomUsed=0,randomDone=0;
+  for(const k in calls){
+    if(calls[k].via==='random'&&!mandKeys.has(k)){
+      randomUsed++;
+      if(wasNotedOn(k,date))randomDone++;
+    }
+  }
+  const totalDone=mandDone+randomDone;
+  return {rows,current,currentIdx,mandDone,mandTotal:list.length,randomUsed,randomDone,totalDone};
 }
 
 /* ============================================================
@@ -2204,9 +2640,20 @@ function isLocked(){const p=currentPlan();return !!(p&&p.submittedAt);}
 /* ============================================================
    MOBILE-FIRST FM VIEW — render
    ============================================================ */
-const FMV={filter:'all', tab:'plan', picks:new Set(), sortBy:'none', sortDir:'asc', search:''};
+const FMV={filter:'all', tab:'mand', picks:new Set(), sortBy:'none', sortDir:'asc', search:''};
+/* Tab switching is DELEGATED at document level so it works no matter
+   what happens during render/wiring — a failure anywhere else can
+   never kill the tabs. Registered once; survives innerHTML swaps. */
+document.addEventListener('click',e=>{
+  const b=e.target&&e.target.closest&&e.target.closest('#fmvTabs [data-ftab]');
+  if(!b)return;
+  if(FMV.tab!==b.dataset.ftab){
+    FMV.tab=b.dataset.ftab;FMV.filter='all';
+    try{renderFMMobile();}catch(err){console.error('tab render',err);}
+  }
+});
 // admin review scorecard: which status the tiles are filtering the lead list by
-const REV={filter:'all', scope:'all', noteFilter:'all'};   // scope: all | planned | unplanned
+const REV={filter:'all', scope:'all', noteFilter:'all', leadNoteFilter:'all'};   // scope: all | planned | unplanned
 // picks persists across stage filters (the 240 gate is a TOTAL across all stages)
 // sortBy: 'none' | 'stage' (days in stage) | 'created' (age); sortDir: 'asc' | 'desc'
 function renderFMMobile(){
@@ -2250,7 +2697,8 @@ function renderFMMobile(){
     </div>
     ${previewPicker?`<div class="fmv-preview-row"><span class="fmv-preview-lbl">👁 Preview as</span>${previewPicker}</div>`:''}
     <div class="fmv-tabs" id="fmvTabs">
-      <button data-ftab="plan" class="${FMV.tab==='plan'?'on':''}">My Plan</button>
+      <button data-ftab="mand" class="${FMV.tab==='mand'?'on':''}">Mandatory</button>
+      <button data-ftab="plan" class="${FMV.tab==='plan'?'on':''}">Plan your day</button>
       <button data-ftab="progress" class="${FMV.tab==='progress'?'on':''}">Progress</button>
       <button data-ftab="result" class="${FMV.tab==='result'?'on':''}">Result</button>
       <button data-ftab="locked" class="${FMV.tab==='locked'?'on':''}">Locked Plan</button>
@@ -2261,6 +2709,11 @@ function renderFMMobile(){
   const pb=fmPipBannerData(fm);
   if(pb)html+=`<div class="fmv-pip ${pb.cls}"><span class="pi">${pb.icon}</span><div><b>${pb.title}</b><span>${pb.msg}</span></div></div>`;
 
+  // Mandatory tab needs the day's notes (dialer completion = call + note).
+  if(FMV.tab==='mand' && NOTES_LOADED_DAY!==STATE.sel.date){
+    NOTES_LOADED_DAY=STATE.sel.date;
+    notesFetch(STATE.sel.date).then(()=>{ renderFMMobile(); });
+  }
   // For the Result tab, ensure this day's G-Meet submissions are loaded (async).
   // We load once per (day) and re-render when they arrive.
   if(FMV.tab==='result' && GMEET_LOADED_DAY!==STATE.sel.date){
@@ -2269,17 +2722,173 @@ function renderFMMobile(){
   }
 
   // route to the active tab's body
-  if(FMV.tab==='plan')       html+=fmPlanBody(fm,byStage,plan);
+  if(FMV.tab==='mand')       html+=fmMandBody(fm,byStage,plan);
+  else if(FMV.tab==='plan')  html+=fmPlanBody(fm,byStage,plan);
   else if(FMV.tab==='progress') html+=fmReviewBody(fm,byStage,plan,'mid');
   else if(FMV.tab==='result')   html+=fmReviewBody(fm,byStage,plan,'eod');
   else                        html+=fmLockedBody(fm,byStage,plan);
 
   host.innerHTML=html;
-  wireFMMobile();
+  try{wireFMMobile();}catch(e){console.error('wireFMMobile',e);}
 }
 let GMEET_LOADED_DAY=null;
 
 /* ---------- TAB 1: PLAN (pick leads) ---------- */
+/* ---- Dialer mode: serve mandatory leads one at a time, in order ---- */
+function dialLeadCardHTML(fm,item,via,posTxt){
+  const l=item.lead;
+  const calls=dialCallsFor(fm);
+  const called=!!calls[l.key];
+  const noted=!!LEAD_NOTES[l.key];
+  const tel=telLink(l.ph);
+  const commit=commitmentInfo(l);
+  let html=`<div class="dial-card">
+    <div class="dial-step">${esc(item.step||'')}</div>
+    <div class="dial-name">${esc(l.name||l.key)}</div>
+    <div class="dial-sub">${esc(l.ph||'no number')}${l.city?' · '+esc(l.city):''} · ${esc(l.status||'')}</div>
+    ${commit?`<div class="dial-commit ${commit.overdue?'overdue':commit.due?'due':''}">${commit.text}</div>`:''}`;
+  if(tel){
+    html+=`<a class="dial-callbtn ${called?'called':''}" href="${tel}" data-dialcall="${esc(l.key)}" data-dialvia="${via}">
+      ${called?'☎ Call again':'📞 Call now'}</a>`;
+  }else{
+    html+=`<div class="dial-lockmsg">No phone number on this lead — save a note to continue.</div>`;
+  }
+  html+=`<div class="dial-chips">
+    <div class="dial-chip ${called||!tel?'done':''}">${called?'✓ Called':(tel?'☎ Not called':'– No number')}</div>
+    <div class="dial-chip ${noted?'done':''}">${noted?'✓ Note saved':'📝 Note pending'}</div>
+  </div>`;
+  // note form is always visible — the note is mandatory for every call
+  html+=notePanelHTML(l.key,l);
+  if(posTxt)html+=`<div class="dial-pos">${posTxt}</div>`;
+  html+=`</div>`;
+  return html;
+}
+function dialDialerHTML(fm,ds){
+  if(!ds.mandTotal){
+    return `<div class="empty" style="padding:40px 20px"><div class="must">✅</div><h3>No plan leads today</h3><p>Your bucket has nothing that qualifies — use Random to keep working.</p></div>`;
+  }
+  if(!ds.current){
+    return `<div class="empty" style="padding:40px 20px"><div class="must">🎉</div><h3>Mandatory list complete</h3><p>All ${ds.mandTotal} planned leads are called + noted. Great day — Random is open if you want extra touches.</p></div>`;
+  }
+  let html=`<div class="dial-lockmsg">🔒 Leads come <b>one at a time, in order</b>. Call + save a note to unlock the next.</div>`;
+  html+=dialLeadCardHTML(fm,ds.current,'dialer',`Lead ${ds.currentIdx+1} of ${ds.mandTotal} · ${ds.mandDone} done`);
+  return html;
+}
+/* ---- Random mode: any of the FM's leads, capped at DIAL_RANDOM_MAX/day ---- */
+function dialRandomHTML(fm,ds){
+  const capHit=ds.randomUsed>=DIAL_RANDOM_MAX;
+  const calls=dialCallsFor(fm);
+  const all=(STATE.bucket?STATE.bucket.leads:[]).filter(l=>l.fm===fm);
+  let html=`<div class="dial-lockmsg">🎲 Random calls add to your day, up to <b>${DIAL_RANDOM_MAX}/day</b>. Pick random or search any of your leads.</div>`;
+  // active random lead card
+  if(DIAL.randKey){
+    const l=all.find(x=>x.key===DIAL.randKey);
+    if(l)html+=dialLeadCardHTML(fm,{lead:l,step:'Random'},'random','');
+  }
+  html+=`<button class="dial-randbtn" data-dialrand ${capHit?'disabled':''}>${capHit?'Random limit reached ('+DIAL_RANDOM_MAX+'/day)':'🎲 Pick a random lead'}</button>`;
+  html+=`<input class="dial-srch" id="dialSearch" type="text" placeholder="Search any lead — name or number…" value="${esc(DIAL.search||'')}" autocomplete="off" ${capHit?'disabled':''}>`;
+  const q=(DIAL.search||'').trim().toLowerCase();
+  if(q&&!capHit){
+    const qd=q.replace(/\D/g,'');
+    const hits=all.filter(l=>{
+      if((l.name||'').toLowerCase().includes(q))return true;
+      if(qd&&(l.ph||'').includes(qd))return true;
+      return false;
+    }).slice(0,8);
+    if(!hits.length)html+=`<div class="gma-empty">No lead matches "${esc(DIAL.search)}".</div>`;
+    for(const l of hits){
+      const done=calls[l.key]&&LEAD_NOTES[l.key];
+      const commit=commitmentInfo(l);
+      html+=`<div class="dial-srow"><div class="sn"><b>${esc(l.name||l.key)}</b><span>${esc(l.ph||'')} · ${esc(l.status||'')}${commit?' · '+esc(commit.text):''}</span></div>
+        ${done?`<span class="dial-chip done" style="flex:0 0 auto">✓ Done</span>`:`<button class="pickbtn" data-dialpick="${esc(l.key)}">Select</button>`}</div>`;
+    }
+  }
+  return html;
+}
+
+/* ---- Mandatory tab: checklist + one-by-one dialer + random ---- */
+function fmMandBody(fm,byStage,plan){
+  const locked=isLocked();
+  if(locked){FMV.picks=new Set(plan?plan.leadKeys:[]);}
+  const picked=FMV.picks;
+  if(!locked){for(const k of mandatoryKeys(fm))picked.add(k);}
+  if(!STATE.bucket){
+    return `<div class="empty" style="padding:50px 20px"><div class="must">📭</div><h3>No data for ${covDateLabel(STATE.sel.date)}</h3><p>Nothing to work on this day yet.</p></div>`;
+  }
+  let html='';
+  // day-type banner: per-FM, auto-decided unless admin overrode on the calendar
+  const dtEff=fmDayType(fm);
+  {
+    const heavy=dtEff.type==='heavy';
+    html+=`<div class="fmv-pip" style="background:${heavy?'#fef3c7':'#dbeafe'};border-color:${heavy?'#fcd34d':'#93c5fd'}">
+      <span class="pi">${heavy?'🔥':'🌤'}</span><div><b>${DAYTYPE_LABEL[dtEff.type]}${dtEff.auto?' · auto':''}</b><span>${heavy?'Focus: Fresh-Recaptured · EI-2 · EI · Ready to Meet':'Focus: Fresh · Market Visit · Callback · Try 1–5 · G-Meet'}</span></div></div>`;
+  }
+  // ---- progress bar: 80 target · mandatory · random ----
+  const ds=dialStatus(fm);
+  const pmins=planMinutes(fm);
+  html+=`<div class="dial-bar">
+    <div class="dial-pill ${ds.mandTotal>0&&ds.mandDone>=ds.mandTotal?'ok':''}"><b>${ds.mandDone}/${ds.mandTotal}</b><span>Plan done</span></div>
+    <div class="dial-pill"><b>${Math.round(pmins/60*10)/10}h</b><span>Expected (${pmins}m)</span></div>
+    <div class="dial-pill"><b>${ds.randomUsed}/${DIAL_RANDOM_MAX}</b><span>Random used</span></div>
+  </div>`;
+  // ---- mode switch ----
+  html+=`<div class="dial-modes">
+    <button data-dialmode="list" class="${DIAL.mode==='list'?'on':''}">📋 Checklist</button>
+    <button data-dialmode="dialer" class="${DIAL.mode==='dialer'?'on':''}">📞 Dialer</button>
+    <button data-dialmode="random" class="${DIAL.mode==='random'?'on':''}">🎲 Random</button>
+  </div>`;
+  if(DIAL.mode==='dialer'){
+    return html+dialDialerHTML(fm,ds);
+  }
+  if(DIAL.mode==='random'){
+    return html+dialRandomHTML(fm,ds);
+  }
+  if(locked){
+    const tm=new Date(plan.submittedAt);
+    html+=`<div class="fmv-locked"><span class="li">🔒</span><div><b>Plan submitted</b><span>Locked ${tm.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'})} — mandatory list shown as submitted.</span></div></div>`;
+  }
+  const steps=mandatoryPlan(fm).filter(s=>s.leads.length);
+  if(!steps.length){
+    FMV._mandDone=true;
+    return html+`<div class="empty" style="padding:40px 20px"><div class="must">✅</div><h3>No mandatory leads today</h3><p>Nothing required for this day type — plan your day from the next tab.</p></div>`;
+  }
+  let prevDone=true; let allMandatoryDone=true;
+  html+=`<div class="mand-wrap"><div class="mand-title">Required today — work these in order</div>`;
+  for(const step of steps){
+    const total=step.leads.length;
+    const done=step.leads.filter(l=>picked.has(l.key)).length;
+    const complete=done>=total;
+    const unlocked=prevDone;
+    if(!complete)allMandatoryDone=false;
+    html+=`<div class="mand-step ${complete?'done':unlocked?'active':'locked'}">
+      <div class="mand-step-hd">
+        <span class="mand-ic">${complete?'✓':unlocked?'●':'🔒'}</span>
+        <span class="mand-name">${esc(step.label)}</span>
+        <span class="mand-count">${done}/${total}</span>
+      </div>`;
+    if(unlocked){
+      html+=`<div class="mand-leads">`;
+      for(const l of step.leads){
+        const on=picked.has(l.key);
+        html+=`<div class="mand-lead ${on?'on':''}" ${locked?'':`data-mandlead="${esc(l.key)}"`}>
+          <span class="mand-check">${on?'✓':''}</span>
+          <div class="mand-lead-body"><div class="mand-lead-name">${esc(l.name||l.key)}</div>
+            <div class="mand-lead-sub">${esc(l.ph||'')}${l.city?' · '+esc(l.city):''}</div></div>
+        </div>`;
+      }
+      html+=`</div>`;
+    }else{
+      html+=`<div class="mand-locked-note">Finish the stage above to unlock</div>`;
+    }
+    html+=`</div>`;
+    prevDone=prevDone&&complete;
+  }
+  html+=`<div class="mand-foot ${allMandatoryDone?'ok':''}">${allMandatoryDone?'✓ All required leads selected — continue in Plan your day':'Complete all required stages in order'}</div>`;
+  html+=`</div>`;
+  FMV._mandDone=allMandatoryDone;
+  return html;
+}
+
 function fmPlanBody(fm,byStage,plan){
   const locked=isLocked();
   // If locked, picks = the submitted plan. If not, use the live FMV.picks set
@@ -2302,47 +2911,12 @@ function fmPlanBody(fm,byStage,plan){
     const t=new Date(plan.submittedAt);
     html+=`<div class="fmv-locked"><span class="li">🔒</span><div><b>Plan submitted</b><span>${picked.size} leads · locked ${t.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'})}. Ask admin to reopen.</span></div></div>`;
   }
-  // ---- MANDATORY STAGE CHECKLIST (ordered, hard-block) ----
+  // Mandatory checklist now lives in its own "Mandatory" tab (fmMandBody).
+  // A short pointer keeps new users oriented.
   if(!locked){
-    const steps=mandatoryPlan(fm).filter(s=>s.leads.length);
-    if(steps.length){
-      // a step is "done" when all its leads are picked; stages unlock in order
-      let prevDone=true; let allMandatoryDone=true;
-      html+=`<div class="mand-wrap"><div class="mand-title">Required today — work these in order</div>`;
-      for(const step of steps){
-        const total=step.leads.length;
-        const done=step.leads.filter(l=>picked.has(l.key)).length;
-        const complete=done>=total;
-        const unlocked=prevDone;
-        if(!complete)allMandatoryDone=false;
-        html+=`<div class="mand-step ${complete?'done':unlocked?'active':'locked'}">
-          <div class="mand-step-hd">
-            <span class="mand-ic">${complete?'✓':unlocked?'●':'🔒'}</span>
-            <span class="mand-name">${esc(step.label)}</span>
-            <span class="mand-count">${done}/${total}</span>
-          </div>`;
-        if(unlocked){
-          html+=`<div class="mand-leads">`;
-          for(const l of step.leads){
-            const on=picked.has(l.key);
-            html+=`<div class="mand-lead ${on?'on':''}" data-mandlead="${esc(l.key)}">
-              <span class="mand-check">${on?'✓':''}</span>
-              <div class="mand-lead-body"><div class="mand-lead-name">${esc(l.name||l.key)}</div>
-                <div class="mand-lead-sub">${esc(l.ph||'')}${l.city?' · '+esc(l.city):''}</div></div>
-            </div>`;
-          }
-          html+=`</div>`;
-        }else{
-          html+=`<div class="mand-locked-note">Finish the stage above to unlock</div>`;
-        }
-        html+=`</div>`;
-        prevDone=prevDone&&complete;
-      }
-      html+=`<div class="mand-foot ${allMandatoryDone?'ok':''}">${allMandatoryDone?'✓ All required leads selected — you can add extras below':'Complete all required stages in order before extras'}</div>`;
-      html+=`</div>`;
-      FMV._mandDone=allMandatoryDone;
-    }else{
-      FMV._mandDone=true;
+    const mandCount=mandatoryKeys(fm).size;
+    if(mandCount){
+      html+=`<div class="mand-foot" style="margin-bottom:10px">📌 ${mandCount} required leads for today are listed in the <b>Mandatory</b> tab — they're auto-selected here.</div>`;
     }
   }
   const stagesWith=STAGES.filter(st=>byStage[st.id].length);
@@ -2436,7 +3010,7 @@ function fmReviewBody(fm,byStage,plan,phase){
   // no plan yet
   if(!plan||!plan.submittedAt){
     return `<div class="empty" style="padding:50px 20px"><div class="must">📋</div>
-      <h3>No plan submitted yet</h3><p>Submit your plan in <b>My Plan</b> first. Then your ${isEod?'end-of-day result':'progress'} will show here.</p></div>`;
+      <h3>No plan submitted yet</h3><p>Submit your plan in <b>Plan your day</b> first. Then your ${isEod?'end-of-day result':'progress'} will show here.</p></div>`;
   }
   // activity for this date (uploaded by admin)
   const activity = STATE.dayActivity[STATE.sel.date] || null;
@@ -2533,7 +3107,7 @@ function fmReviewBody(fm,byStage,plan,phase){
 function fmLockedBody(fm,byStage,plan){
   if(!plan||!plan.submittedAt){
     return `<div class="empty" style="padding:50px 20px"><div class="must">🔒</div>
-      <h3>No locked plan yet</h3><p>Once you submit your plan in <b>My Plan</b>, the leads you chose appear here as your locked plan for the day.</p></div>`;
+      <h3>No locked plan yet</h3><p>Once you submit your plan in <b>Plan your day</b>, the leads you chose appear here as your locked plan for the day.</p></div>`;
   }
   const t=new Date(plan.submittedAt);
   const keys=new Set(plan.leadKeys);
@@ -2610,18 +3184,22 @@ function gmeetApprovalsHTML(day){
 function notePanelHTML(leadKey, lead){
   const existing=LEAD_NOTES[leadKey];
   const nm=(lead&&lead.name)||leadKey;
+  const stageId=(lead&&lead.stage)||'';
+  const showVisit=stageId==='r2m'||stageId==='mv';
   if(existing){
     const sc=NOTE_TEMPLATES[existing.sentiment]?NOTE_TEMPLATES[existing.sentiment].cls:'neutral';
+    const vd=STATE.visitDates[leadKey];
     return `<div class="note-panel done" data-noteld="${esc(leadKey)}">
       <div class="note-head"><i class="ti ti-note" aria-hidden="true"></i> Note saved
         <span class="note-sent ${sc}">${NOTE_TEMPLATES[existing.sentiment]?NOTE_TEMPLATES[existing.sentiment].label:''}</span></div>
       <div class="note-text">${esc(existing.note_text||existing.template||'')}</div>
+      ${vd?`<div class="note-visit">📌 Scheduled visit: <b>${isoToDMY(vd.date)}</b> — added to that day's plan</div>`:''}
       <button class="note-edit" data-noteedit="${esc(leadKey)}">Edit note</button>
     </div>`;
   }
-  return noteFormHTML(leadKey, nm);
+  return noteFormHTML(leadKey, nm, showVisit, (STATE.visitDates[leadKey]||{}).date||'');
 }
-function noteFormHTML(leadKey, nm){
+function noteFormHTML(leadKey, nm, showVisit, visitVal){
   const sentBtns=Object.entries(NOTE_TEMPLATES).map(([k,v])=>
     `<button class="note-sentbtn ${v.cls}" data-notesent="${esc(leadKey)}|${k}">${v.label}</button>`).join('');
   return `<div class="note-panel" data-noteld="${esc(leadKey)}">
@@ -2629,6 +3207,10 @@ function noteFormHTML(leadKey, nm){
     <div class="note-sentrow">${sentBtns}</div>
     <div class="note-templates" data-notetpls="${esc(leadKey)}"></div>
     <textarea class="note-textarea" data-notetext="${esc(leadKey)}" placeholder="Add your own words (optional)"></textarea>
+    ${showVisit?`<div class="note-visitrow">
+      <label>📌 Visit / meeting date <span class="note-visit-sub">— pins this lead to that day's plan, whatever the day type</span></label>
+      <input type="date" class="note-visitinput" data-notevisit="${esc(leadKey)}" value="${esc(visitVal)}" min="${todayISO()}">
+    </div>`:''}
     <button class="note-save" data-notesave="${esc(leadKey)}">Save note</button>
     <div class="note-msg" data-notemsg="${esc(leadKey)}"></div>
   </div>`;
@@ -2739,6 +3321,35 @@ function fmRefreshSheet(){
 }
 
 function wireFMMobile(){
+  // ---- Dialer wiring (Mandatory tab) ----
+  $$('#fmView [data-dialmode]').forEach(b=>b.addEventListener('click',()=>{
+    DIAL.mode=b.dataset.dialmode; renderFMMobile();
+  }));
+  $$('#fmView [data-dialcall]').forEach(a=>a.addEventListener('click',()=>{
+    // let the tel: link open the phone dialer; mark the call and repaint after
+    const fm=STATE.sel.fm;
+    markCalled(fm,a.dataset.dialcall,a.dataset.dialvia||'dialer');
+    setTimeout(renderFMMobile,150);
+  }));
+  const dr=$('#fmView [data-dialrand]');
+  if(dr)dr.addEventListener('click',()=>{
+    const fm=STATE.sel.fm;
+    const calls=dialCallsFor(fm);
+    const pool=(STATE.bucket?STATE.bucket.leads:[]).filter(l=>l.fm===fm&&!(calls[l.key]&&LEAD_NOTES[l.key])&&l.key!==DIAL.randKey);
+    if(!pool.length){toast('No uncalled leads left to pick','bad');return;}
+    DIAL.randKey=pool[Math.floor(Math.random()*pool.length)].key;
+    renderFMMobile();
+  });
+  $$('#fmView [data-dialpick]').forEach(b=>b.addEventListener('click',()=>{
+    DIAL.randKey=b.dataset.dialpick; renderFMMobile();
+  }));
+  const dsr=$('#dialSearch');
+  if(dsr){
+    dsr.addEventListener('input',()=>{
+      DIAL.search=dsr.value;
+      clearTimeout(dsr._t);dsr._t=setTimeout(()=>{const v=dsr.value;renderFMMobile();const el=$('#dialSearch');if(el){el.focus();el.setSelectionRange(v.length,v.length);}},350);
+    });
+  }
   // ---- Mandatory plan lead taps (toggle selection) ----
   $$('#fmView [data-mandlead]').forEach(el=>el.addEventListener('click',()=>{
     const k=el.dataset.mandlead;
@@ -2770,21 +3381,30 @@ function wireFMMobile(){
     const sel=noteSel[k]||{};
     const ta=$(`#fmView [data-notetext="${CSS.escape(k)}"]`);
     const msg=$(`#fmView [data-notemsg="${CSS.escape(k)}"]`);
+    const vdEl=$(`#fmView [data-notevisit="${CSS.escape(k)}"]`);
+    const visitDate=vdEl?(vdEl.value||''):undefined; // undefined = field not shown for this stage
     const txt=(ta&&ta.value.trim())||sel.template||'';
     if(!sel.sentiment){if(msg){msg.textContent='Pick Positive / On hold / Negative first.';msg.className='note-msg bad';}return;}
     if(!txt){if(msg){msg.textContent='Tap a template or type a note.';msg.className='note-msg bad';}return;}
     btn.disabled=true;btn.textContent='Saving…';
     const lead=leadByKey(k)||{};
     const fmName=AUTH.fmName||STATE.sel.fm;
-    const ok=await noteSave(STATE.sel.date,k,lead.name||'',fmName,sel.sentiment,sel.template||'',txt,'','');
-    if(ok){ NOTES_LOADED_DAY=null; await notesFetch(STATE.sel.date); renderFMMobile(); }
+    const ok=await noteSave(STATE.sel.date,k,lead.name||'',fmName,sel.sentiment,sel.template||'',txt,'','',visitDate);
+    if(ok){
+      // keep the scheduled visit date in sync — latest wins, empty clears it
+      if(visitDate){STATE.visitDates[k]={date:visitDate,fm:fmName,leadName:lead.name||k,setAt:Date.now()};}
+      else if(visitDate===''&&STATE.visitDates[k]){delete STATE.visitDates[k];}
+      if(visitDate!==undefined)await persist();
+      NOTES_LOADED_DAY=null; await notesFetch(STATE.sel.date); renderFMMobile();
+    }
     else{ if(msg){msg.textContent='Save failed — try again.';msg.className='note-msg bad';} btn.disabled=false;btn.textContent='Save note'; }
   }));
   $$('#fmView [data-noteedit]').forEach(b=>b.addEventListener('click',()=>{
     const k=b.dataset.noteedit;
     const panel=b.closest('.note-panel');
     const lead=leadByKey(k)||{};
-    if(panel)panel.outerHTML=noteFormHTML(k, lead.name||k);
+    const showVisit=lead.stage==='r2m'||lead.stage==='mv';
+    if(panel)panel.outerHTML=noteFormHTML(k, lead.name||k, showVisit, (STATE.visitDates[k]||{}).date||'');
     wireFMMobile();
   }));
   // ---- G-Meet upload panel wiring ----
@@ -2872,10 +3492,7 @@ function wireFMMobile(){
   }
   const sclr=$('#fmvSearchClr');
   if(sclr)sclr.addEventListener('click',()=>{FMV.search='';renderFMMobile();});
-  // tab toggle
-  $$('#fmvTabs [data-ftab]').forEach(b=>b.addEventListener('click',()=>{
-    if(FMV.tab!==b.dataset.ftab){FMV.tab=b.dataset.ftab;FMV.filter='all';renderFMMobile();}
-  }));
+  // tab toggle: handled by the delegated document-level listener (see FMV)
   // date stepper
   const pv=$('#fmvPrevDay'),nx=$('#fmvNextDay');
   if(pv)pv.addEventListener('click',()=>changeSelectedDate(shiftISO(STATE.sel.date,-1),'fmv'));
@@ -3364,7 +3981,8 @@ function renderReview(phase){
   </div>`;
   html+=`<div class="card" style="margin-bottom:14px"><div class="card-pad">
     <div class="sec-head"><span class="must">${showFM?'🎯':(isEod?'🌙':'🕐')}</span><h2>${scTitle}${showFM?' — scorecard':' — '+isoToDMY(date)}</h2>${showFM?'<span class="mini-link" data-backall style="margin-left:auto">← all managers</span>':''}</div>
-    ${scopeToggle}
+    <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">${scopeToggle}
+      <button class="btn btn-ghost btn-sm inl" data-notescsv style="margin-left:auto">⬇ Notes CSV</button></div>
     <div class="score-grid score-grid-6">${tiles}</div>
   </div></div>`;
   const sc=planned;  // downstream references
@@ -3372,38 +3990,39 @@ function renderReview(phase){
   if(showFM){
     html+=reviewFMDetail(plans.find(p=>p.fm===fm),activity,phase);
   }else if((REV.scope||'all')==='unplanned'){
-    // ALL-MANAGERS + UNPLANNED: show every FM's unplanned leads (the different
-    // leads they called that day that weren't in their plan), grouped by FM.
+    // ALL-MANAGERS + UNPLANNED: same "By franchise manager" card grid as the
+    // Planned scope — one card per FM with their unplanned numbers. Tap a
+    // card to open that FM's full unplanned lead list.
     const fmSet=new Set(plans.map(p=>p.fm));
     for(const key in activity){if(key.startsWith('__'))continue;const a=activity[key];if(a&&a.fmName)fmSet.add(a.fmName);}
+    if(STATE.bucket)for(const f of STATE.bucket.fms)fmSet.add(f);
     const fmList=[...fmSet].sort((a,b)=>a.localeCompare(b));
+    html+=`<div class="card"><div class="card-pad">
+      <div class="sec-head"><span class="must">👥</span><h2>By franchise manager</h2></div>
+      <div class="sec-sub">Tap a manager to see every unplanned lead they called and what happened on it.</div>
+      <div class="fmgrid">`;
     let any=false;
     for(const fmName of fmList){
       const plan=plans.find(p=>p.fm===fmName)||null;
       const u=unplannedFor(fmName,activity,plan);
-      if(!u.rows.length)continue;
-      any=true;
-      // apply active status filter (tile) if any
-      const bucketOf=lvl=>lvl==='connected'?'worked':lvl==='workedless'?'workedless':'partial';
-      const shown=u.rows.filter(r=>REV.filter==='all'||bucketOf(r.g.level)===REV.filter);
-      html+=`<div class="card" style="margin-bottom:12px"><div class="card-pad">
-        <div class="sec-head"><span class="must">📞</span><h2>${esc(fmName)}</h2>
-          <span class="mini-link" data-fmpick="${esc(fmName)}" style="margin-left:auto">open →</span></div>
-        <div class="sec-sub">${u.rows.length} different leads called (not planned) · ${u.talk}m talk · ${u.worked} worked · ${u.workedless} worked less · ${u.partial} partial</div>`;
-      for(const r of shown){
-        const badge=`<span class="lead-badge ${r.g.cls}">${gradeIcon(r.g.level)}${r.g.label}</span>`;
-        html+=`<div class="rev-lead">
-          <div class="rev-lead-main">
-            <div class="rev-lead-name">${esc(r.name)}<span class="lead-stage-tag">${esc(r.stage)}</span></div>
-            <div class="rev-lead-sub">${esc(r.key)}${r.city?' · '+esc(r.city):''}</div>
-          </div>
-          ${r.g.evi?`<div class="rev-evi">${renderEvi(r.g.evi)}</div>`:''}
-          ${badge}
+      if(u.rows.length){
+        any=true;
+        html+=`<div class="fmcard" data-fmpick="${esc(fmName)}">
+          <div class="fn">${esc(fmName)}<span class="adp" style="color:var(--cyan-d)">${u.rows.length}</span></div>
+          <div class="frow">Touched <b>${u.rows.length}</b></div>
+          <div class="frow">Worked <b style="color:var(--ok)">${u.worked}</b></div>
+          <div class="frow">Worked less <b style="color:#b45309">${u.workedless}</b></div>
+          <div class="frow">Partial <b style="color:var(--warn)">${u.partial}</b></div>
+          <div class="fm-talk ${u.talk>0?'ok':'bad'}">🕐 Unplanned talk ${u.talk} min</div>
         </div>`;
+      }else{
+        html+=`<div class="fmcard no-plan"><div class="fn">${esc(fmName)}<span class="adp">none</span></div>
+          <div class="frow" style="color:var(--mut-2)">No unplanned calls this day</div></div>`;
       }
-      html+=`</div></div>`;
     }
-    if(!any)html+=`<div class="card"><div class="card-pad"><div class="gma-empty">No unplanned lead activity found for this day. Make sure the ALLREPORT file is uploaded.</div></div></div>`;
+    html+=`</div>`;
+    if(!any)html+=`<div class="gma-empty">No unplanned lead activity found for this day. Make sure the ALLREPORT file is uploaded.</div>`;
+    html+=`</div></div>`;
   }else{
     // FM cards
     html+=`<div class="card"><div class="card-pad">
@@ -3455,6 +4074,9 @@ function renderReview(phase){
   // wire the "← all managers" back link (resets FM and filter)
   const bk=$(`#${isEod?'eodBody':'midBody'} [data-backall]`);
   if(bk)bk.addEventListener('click',()=>{REV.filter='all';STATE.sel.fm='';$('#planFM').value='';renderReview(phase);});
+  // notes CSV export for the selected day
+  const ncsv=$(`#${isEod?'eodBody':'midBody'} [data-notescsv]`);
+  if(ncsv)ncsv.addEventListener('click',()=>{ncsv.disabled=true;notesCsvDownload(date).finally(()=>{ncsv.disabled=false;});});
 
   // ---- G-Meet approval actions ----
   const bodyScope=`#${isEod?'eodBody':'midBody'}`;
@@ -3471,10 +4093,6 @@ function renderReview(phase){
   $$(`${bodyScope} [data-gmadel]`).forEach(b=>b.addEventListener('click',()=>{
     if(!confirm('Delete this submission? The FM will be able to upload again.'))return;
     doAction(gmeetDelete,b.dataset.gmadel,'Deleted — FM can re-upload','Delete failed');
-  }));
-  // note sentiment filter (admin FM detail)
-  $$(`${bodyScope} [data-notefilter]`).forEach(b=>b.addEventListener('click',()=>{
-    REV.noteFilter=b.dataset.notefilter; renderReview(phase);
   }));
 }
 
@@ -3504,7 +4122,6 @@ function reviewFMDetail(plan,activity,phase){
       }
     }
     uh+=`</div></div>`;
-    setTimeout(()=>{const b=$('[data-backall]');if(b)b.addEventListener('click',()=>{REV.filter='all';STATE.sel.fm='';$('#planFM').value='';renderReview(phase);});},0);
     return uh;
   }
   const talk=fmTalkMins(activity,plan.fm);
@@ -3514,7 +4131,7 @@ function reviewFMDetail(plan,activity,phase){
   for(const key of plan.leadKeys){const g=gradeLead(key,activity,stageMinForKey(plan,key));if(g.warns){if(g.warns.includes('no note'))noteW++;if(g.warns.includes('no reminder'))remW++;}}
   let html=`<div class="card"><div class="card-pad">
     <div class="sec-head"><span class="must">🎯</span><h2>${esc(plan.fm)} — planned leads</h2></div>
-    <div class="sec-sub">Each lead ${esc(plan.fm)} committed to this morning, and whether it was worked. <span class="mini-link" data-backall>← all managers</span></div>
+    <div class="sec-sub">Each lead ${esc(plan.fm)} committed to this morning, and whether it was worked.</div>
     <div class="talk-row">
       <div class="talk-chip ${talkMet?'ok':'bad'}">
         <span class="tc-lbl">Talk time today</span>
@@ -3554,33 +4171,9 @@ function reviewFMDetail(plan,activity,phase){
     }
     html+=`</div>`;
   }
-  // ---- NOTES section: templated notes this FM saved for the day, with filter ----
-  const noteRows=Object.values(LEAD_NOTES).filter(n=>n.fm_name===plan.fm);
-  if(noteRows.length){
-    const nf=REV.noteFilter||'all';
-    const shown=nf==='all'?noteRows:noteRows.filter(n=>n.sentiment===nf);
-    const cnt=s=>noteRows.filter(n=>n.sentiment===s).length;
-    html+=`<div class="notes-sec"><div class="notes-sec-hd">📝 ${noteRows.length} Note${noteRows.length>1?'s':''}</div>
-      <div class="notes-filter">
-        <button class="nfbtn ${nf==='all'?'on':''}" data-notefilter="all">All ${noteRows.length}</button>
-        <button class="nfbtn success ${nf==='positive'?'on':''}" data-notefilter="positive">Positive ${cnt('positive')}</button>
-        <button class="nfbtn warning ${nf==='onhold'?'on':''}" data-notefilter="onhold">On hold ${cnt('onhold')}</button>
-        <button class="nfbtn danger ${nf==='negative'?'on':''}" data-notefilter="negative">Negative ${cnt('negative')}</button>
-      </div>`;
-    for(const n of shown){
-      const sc=NOTE_TEMPLATES[n.sentiment]?NOTE_TEMPLATES[n.sentiment].cls:'neutral';
-      html+=`<div class="notes-item">
-        <div class="notes-item-top">
-          <span class="notes-name">${esc(n.lead_name||n.lead_key)}</span>
-          <span class="note-sent ${sc}">${NOTE_TEMPLATES[n.sentiment]?NOTE_TEMPLATES[n.sentiment].label:n.sentiment}</span>
-        </div>
-        <div class="notes-body">${esc(n.note_text||n.template||'')}</div>
-        ${(n.from_status||n.to_status)?`<div class="notes-move">${esc(n.from_status||'?')} → ${esc(n.to_status||'?')}</div>`:''}
-      </div>`;
-    }
-    if(!shown.length)html+=`<div class="gma-empty">No ${nf} notes.</div>`;
-    html+=`</div>`;
-  }
+  // NOTES: shown per-lead as dropdowns in the list below, with the single
+  // sentiment filter row there (the old separate notes section was removed
+  // as a duplicate).
   // maps a grade level to the scorecard tile bucket it belongs to
   const bucketOf = lvl => lvl==='connected'?'worked'
     : lvl==='workedless'?'workedless'
@@ -3590,6 +4183,27 @@ function reviewFMDetail(plan,activity,phase){
   const filterLabel = {worked:'Worked',workedless:'Worked Less',partial:'Partial',none:'Not touched'}[REV.filter];
   if(REV.filter!=='all'){
     html+=`<div class="rev-filter-note">Showing only <b>${filterLabel}</b> leads · <span class="mini-link" data-revclear>show all</span></div>`;
+  }
+  // ---- Lead-level note sentiment filter (Positive / On hold / Negative) ----
+  // Filters the planned-lead list below by the sentiment of each lead's note.
+  const lnf=REV.leadNoteFilter||'all';
+  const noteOf=key=>LEAD_NOTES[key]||null;
+  const matchNote=key=>{
+    if(lnf==='all')return true;
+    const n=noteOf(key);
+    return !!n && n.sentiment===lnf;
+  };
+  {
+    const lcnt=s=>plan.leadKeys.filter(k=>{const n=noteOf(k);return n&&n.sentiment===s;}).length;
+    const anyNotes=plan.leadKeys.some(k=>noteOf(k));
+    if(anyNotes){
+      html+=`<div class="lnf-row">
+        <button class="nfbtn ${lnf==='all'?'on':''}" data-lnf="all">All leads</button>
+        <button class="nfbtn success ${lnf==='positive'?'on':''}" data-lnf="positive">Positive ${lcnt('positive')}</button>
+        <button class="nfbtn warning ${lnf==='onhold'?'on':''}" data-lnf="onhold">On hold ${lcnt('onhold')}</button>
+        <button class="nfbtn danger ${lnf==='negative'?'on':''}" data-lnf="negative">Negative ${lcnt('negative')}</button>
+      </div>`;
+    }
   }
   // group planned keys by stage using snapshot
   for(const st of STAGES){
@@ -3604,8 +4218,8 @@ function reviewFMDetail(plan,activity,phase){
       stageTalkSec+=capped;
       if(gg.level==='connected')stageWorked++;
     }
-    // which leads to actually show under this stage, after the status filter
-    const shownKeys=keys.filter(key=>matchFilter(gradeLead(key,activity,st.min).level));
+    // which leads to actually show under this stage, after the status + note filters
+    const shownKeys=keys.filter(key=>matchFilter(gradeLead(key,activity,st.min).level)&&matchNote(key));
     if(!shownKeys.length)continue;   // hide stages with nothing matching the filter
     const targetMin=Math.round(keys.length*st.min*(st.share||1));
     const gotMin=Math.round(stageTalkSec/60);
@@ -3617,10 +4231,26 @@ function reviewFMDetail(plan,activity,phase){
       const g=gradeLead(key,activity,st.min);
       const badge=`<span class="lead-badge ${g.cls}">${gradeIcon(g.level)}${g.label}</span>`;
       const warnHTML=(g.warns&&g.warns.length)?g.warns.map(w=>`<span class="lead-warn">⚠ ${w}</span>`).join(''):'';
+      // note dropdown: latest in-app note for this lead, if any
+      const nrow=noteOf(key);
+      let noteHTML='';
+      if(nrow){
+        const nt=NOTE_TEMPLATES[nrow.sentiment];
+        noteHTML=`<details class="lead-note-dd"><summary>📝 Note <span class="note-sent ${nt?nt.cls:'neutral'}">${nt?nt.label:esc(nrow.sentiment||'')}</span><span class="caret">▾</span></summary>
+          <div class="lead-note-body">${esc(nrow.note_text||nrow.template||'(no text)')}
+            ${(nrow.from_status||nrow.to_status)?`<div class="nb-move">${esc(nrow.from_status||'?')} → ${esc(nrow.to_status||'?')}</div>`:''}
+          </div></details>`;
+      }
+      // cross-check: FM's dialer claim (call+note) vs real TeleCRM evidence
+      // (CALLDETAILS/STATUSCHANGE) for this same day — flags a mismatch.
+      const unverified=claimedNotVerified(key,plan.fm,date);
+      const unverHTML=unverified?`<div class="lead-unver">🚩 Claimed called + noted — not backed by CALLDETAILS/notes upload</div>`:'';
       html+=`<div class="rev-lead">
         <div class="rev-lead-main">
           <div class="rev-lead-name">${esc(snap.name||key)}${warnHTML}</div>
           <div class="rev-lead-sub">${esc(snap.ph||'')}${snap.city?' · '+esc(snap.city):''}</div>
+          ${noteHTML}
+          ${unverHTML}
         </div>
         ${g.evi?`<div class="rev-evi">${renderEvi(g.evi)}</div>`:''}
         ${badge}
@@ -3630,8 +4260,8 @@ function reviewFMDetail(plan,activity,phase){
   }
   html+=`</div></div>`;
   setTimeout(()=>{
-    const b=$('[data-backall]');if(b)b.addEventListener('click',()=>{REV.filter='all';STATE.sel.fm='';$('#planFM').value='';renderReview(phase);});
     const rc=$('[data-revclear]');if(rc)rc.addEventListener('click',()=>{REV.filter='all';renderReview(phase);});
+    $$('[data-lnf]').forEach(bt=>bt.addEventListener('click',()=>{REV.leadNoteFilter=bt.dataset.lnf;renderReview(phase);}));
   },0);
   return html;
 }
@@ -3768,6 +4398,8 @@ function changeSelectedDate(newDate, source){
   if(UP_EOD){UP_EOD.store.date=newDate; clearUploaderFiles(UP_EOD);}
   // repaint current phase with the new date's data
   updateUnlockBtn();
+  updateDayTypeBadge();
+  renderDayTypeCal();
   fillFMSelect(); // repopulate FM dropdown for this date's bucket
   if(STATE.role==='fm'){FMV.picks=new Set();renderFMMobile();}
   else{switchPhase(STATE.phase);}
@@ -4015,22 +4647,29 @@ function attendanceHTML(){
   const daysInMonth=new Date(view.y,view.m+1,0).getDate();
   const iso=(d)=>view.y+'-'+String(view.m+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');
 
+  // Mandatory-completion needs each date's notes; the month cache is fetched
+  // once and the view repaints when it lands (same lazy-load pattern used
+  // for G-Meet submissions and the day's own notes elsewhere in the app).
+  if(!MONTH_NOTES_CACHE[view.y+'-'+String(view.m+1).padStart(2,'0')]){
+    monthNotesFetch(view.y,view.m).then(set=>{ if(set)renderPip(); });
+  }
+
   // tally
-  let cP=0,cA=0,cH=0,cL=0;
+  let cP=0,cA=0,cH=0,cL=0,cM=0;
   const cells=[];
   for(let i=0;i<startDow;i++)cells.push('<div class="att-cell blank"></div>');
   for(let d=1;d<=daysInMonth;d++){
     const dISO=iso(d);
     const future=new Date(view.y,view.m,d) > now;
     const s=future?{state:'none',label:''}:attState(fm,dISO);
-    const clsMap={present:'p',perf:'r',noplan:'o',leave:'y',holiday:'g',none:'n'};
-    if(s.state==='present')cP++;else if(s.state==='perf'||s.state==='noplan')cA++;else if(s.state==='holiday')cH++;else if(s.state==='leave')cL++;
+    const clsMap={present:'p',perf:'r',mandmiss:'o',leave:'y',holiday:'g',none:'n'};
+    if(s.state==='present')cP++;else if(s.state==='perf')cA++;else if(s.state==='mandmiss')cM++;else if(s.state==='holiday')cH++;else if(s.state==='leave')cL++;
     cells.push(`<div class="att-cell ${clsMap[s.state]||'n'}" data-attday="${dISO}" title="${esc(s.label||dISO)}">${d}</div>`);
   }
   const opts=fms.map(f=>`<option value="${esc(f)}" ${f===fm?'selected':''}>${esc(f)}</option>`).join('');
   return `<div class="card"><div class="card-pad">
     <div class="sec-head"><span class="must">🗓️</span><h2>Attendance</h2></div>
-    <div class="sec-sub">Green = present (240m + planned by ${to12h(GMEET_SETTINGS.plan_cutoff_local||'10:30')}). Red = under target. Orange = no plan on time. Yellow = leave. Grey = holiday/Sunday.</div>
+    <div class="sec-sub">Green = present (240m talk + full mandatory plan touched). Red = under 240m. Amber = 240m done but mandatory unfinished. Yellow = leave. Grey = holiday/Sunday.</div>
     <div class="att-controls">
       <select id="attFm" class="att-fm">${opts}</select>
       <div class="att-nav">
@@ -4042,10 +4681,10 @@ function attendanceHTML(){
     <div class="att-legend">
       <span class="att-tally"><i class="d p"></i>Present <b>${cP}</b></span>
       <span class="att-tally"><i class="d r"></i>Under target</span>
-      <span class="att-tally"><i class="d o"></i>No plan on time</span>
+      <span class="att-tally"><i class="d o"></i>Mandatory unfinished <b>${cM}</b></span>
       <span class="att-tally"><i class="d y"></i>Leave <b>${cL}</b></span>
       <span class="att-tally"><i class="d g"></i>Holiday <b>${cH}</b></span>
-      <span class="att-tally att-abs"><b>${cA}</b> absent total</span>
+      <span class="att-tally att-abs"><b>${cA+cM}</b> absent total</span>
     </div>
     <div class="att-grid-hd">${['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].map(d=>`<div>${d}</div>`).join('')}</div>
     <div class="att-grid">${cells.join('')}</div>
@@ -4296,24 +4935,6 @@ function renderPip(){
     </div>
   </div></div>`;
 
-  // ---- Day-plan cutoff (attendance) settings card ----
-  const planCut=(gs.plan_cutoff_local||'10:30').slice(0,5);
-  const planLockOn=gs.plan_lock_enabled!==false;
-  html+=`<div class="card" style="margin-bottom:14px"><div class="card-pad">
-    <div class="sec-head"><span class="must">⏰</span><h2>Day-plan cutoff (attendance)</h2></div>
-    <div class="sec-sub">FMs must lock their day plan before this time. If they don't, that day is marked absent (orange) in attendance. Same server-clock logic as the G-Meet cutoff.</div>
-    <div class="cfg-row" style="align-items:flex-end">
-      <label class="gm-toggle">
-        <input type="checkbox" id="planLockOn" ${planLockOn?'checked':''}>
-        <span class="gm-toggle-txt">Plan lock ${planLockOn?'ON':'OFF'}</span>
-      </label>
-      <div class="fld"><label>Plan-by time (IST)</label><input type="time" id="planCutoff" value="${planCut}" ${planLockOn?'':'disabled'}></div>
-      <button class="btn btn-primary btn-sm" id="planCutSave">Save</button>
-      <span class="gm-save-msg" id="planCutMsg"></span>
-    </div>
-    <div class="cfg-legend"><span>${planLockOn?`Plans locked after <b>${to12h(planCut)}</b> IST count as "no plan on time".`:'Plan lock is <b>off</b> — late plans are not marked absent.'}</span></div>
-  </div></div>`;
-
   // ---- Stage Rules editor ----
   html+=`<div class="card" style="margin-bottom:14px"><div class="card-pad">
     <div class="sec-head"><span class="must">🎚️</span><h2>Stage rules & plan minimum</h2></div>
@@ -4468,25 +5089,6 @@ function wirePipCfg(){
       renderPip();toast('G-Meet cutoff saved','ok');
     }else{
       if(gmMsg){gmMsg.textContent='Save failed';gmMsg.className='gm-save-msg bad';}
-      toast('Could not save — check connection','bad');
-    }
-  });
-  // Day-plan cutoff (attendance)
-  const planLockEl=$('#planLockOn'), planCutSave=$('#planCutSave'), planCutEl=$('#planCutoff'), planCutMsg=$('#planCutMsg');
-  if(planLockEl)planLockEl.addEventListener('change',()=>{ if(planCutEl)planCutEl.disabled=!planLockEl.checked; });
-  if(planCutSave)planCutSave.addEventListener('click',async()=>{
-    const patch={ plan_lock_enabled: planLockEl?planLockEl.checked:true };
-    if(planCutEl&&planCutEl.value)patch.plan_cutoff_local=planCutEl.value+':00';
-    planCutSave.disabled=true;if(planCutMsg){planCutMsg.textContent='Saving…';planCutMsg.className='gm-save-msg';}
-    const ok=await gmeetSaveSettings(patch);
-    planCutSave.disabled=false;
-    if(ok){
-      GMEET_SETTINGS={...GMEET_SETTINGS,...patch};
-      if(planCutEl&&planCutEl.value)GMEET_SETTINGS.plan_cutoff_local=planCutEl.value;
-      if(planCutMsg){planCutMsg.textContent='✓ Saved';planCutMsg.className='gm-save-msg ok';}
-      renderPip();toast('Day-plan cutoff saved','ok');
-    }else{
-      if(planCutMsg){planCutMsg.textContent='Save failed';planCutMsg.className='gm-save-msg bad';}
       toast('Could not save — check connection','bad');
     }
   });
@@ -4687,6 +5289,9 @@ async function boot(){
   $('#planDate').addEventListener('change',e=>{
     changeSelectedDate(e.target.value,'planDate');
   });
+  // ---- Day type (Heavy / Least) admin calendar ----
+  updateDayTypeBadge();
+  renderDayTypeCal();
   // unlock
   $('#unlockBtn').addEventListener('click',unlockPlan);
   // reset all stored data (clears old cached buckets/plans/pip)
